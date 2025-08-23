@@ -1,63 +1,80 @@
-# Interactive Pokedex
+# 📘 Interactive Pokedex  
+[![HTML](https://img.shields.io/badge/HTML-5-E34F26?logo=html5&logoColor=white&style=for-the-badge)]()  
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?logo=tailwindcss&logoColor=white&style=for-the-badge)](https://tailwindcss.com/)  
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=for-the-badge)]()  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)  
 
-An interactive Pokedex application built with HTML, Tailwind CSS, and JavaScript. This project integrates various Pokémon APIs to provide a comprehensive and interactive experience for Pokémon enthusiasts.
+> An **interactive Pokedex application** built with **HTML, Tailwind CSS, and JavaScript**, integrating multiple Pokémon APIs for a rich and engaging experience.  
 
-## APIs Used
+---
 
-1. **Pokémon API (PokeAPI)**
-   - **Description**: Provides detailed information about Pokémon, including their stats, types, abilities, and evolutionary chains.
-   - **Endpoint**: `https://pokeapi.co/api/v2/pokemon/{id or name}`
-   - **Documentation**: [PokeAPI Documentation](https://pokeapi.co/docs/v2)
+## 🔗 APIs Used
 
-2. **Pokémon TCG API**
-   - **Description**: Provides information about Pokémon Trading Card Game cards, including images and stats.
-   - **Endpoint**: `https://api.pokemontcg.io/v2/cards?q=name:{name}`
-   - **Documentation**: [Pokémon TCG API Documentation](https://pokemontcg.io/)
+1. **Pokémon API (PokeAPI)**  
+   - **Description**: Provides detailed Pokémon information (stats, types, abilities, evolution).  
+   - **Endpoint**: `https://pokeapi.co/api/v2/pokemon/{id or name}`  
+   - **Docs**: [PokeAPI Documentation](https://pokeapi.co/docs/v2)  
 
-## Features
+2. **Pokémon TCG API**  
+   - **Description**: Provides Pokémon Trading Card Game data (cards, images, stats).  
+   - **Endpoint**: `https://api.pokemontcg.io/v2/cards?q=name:{name}`  
+   - **Docs**: [Pokémon TCG API Documentation](https://pokemontcg.io/)  
 
-- **Search Functionality**: Search for Pokémon by name.
-- **Pokémon Details**: View detailed information about each Pokémon, including their types, stats, and abilities.
-- **Evolution Chain**: Visual representation of a Pokémon's evolution chain.
-- **Trading Cards**: Display related Pokémon Trading Card Game cards.
-- **Pokémon Quiz**: Interactive quiz to test your knowledge about Pokémon types.
+---
 
-## Installation
+## ✨ Features
 
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/your-username/interactive-pokedex.git
-   ```
+- 🔍 **Search Functionality** → Search Pokémon by name  
+- 📊 **Pokémon Details** → Stats, types, abilities, and more  
+- 🔗 **Evolution Chain** → Visual evolution progression  
+- 🎴 **Trading Cards** → Display Pokémon TCG cards  
+- ❓ **Pokémon Quiz** → Interactive quiz to test type knowledge  
 
-2. Navigate to the project directory:
-   ```sh
-   cd interactive-pokedex
-   ```
+---
 
-3. Open `index.html` in your browser to view the application.
+## ⚙️ Installation
 
-## Usage
+```bash
+# Clone repository
+git clone https://github.com/your-username/interactive-pokedex.git
+cd interactive-pokedex
+```
 
-1. **Search for a Pokémon**: Use the search bar to find a Pokémon by its name. The application will display a list of matching Pokémon.
-2. **View Pokémon Details**: Click on a Pokémon card to view detailed information about it, including its stats, abilities, and evolution chain.
-3. **Explore Pokémon TCG**: See related Pokémon Trading Card Game cards in the details section.
-4. **Take the Pokémon Quiz**: Test your knowledge by taking the interactive quiz.
+Open `index.html` in your browser to run the application.  
 
-## Research and Resources
+---
 
-This project was developed using various resources and research materials:
+## ▶ Usage
 
-- **PokeAPI**: Used for fetching Pokémon data.
-- **Pokémon TCG API**: Used for fetching Pokémon Trading Card Game data.
-- **MDN Web Docs**: For general web development references and best practices.
-- **W3C**: For HTML and CSS validation guidelines.
+1. **Search Pokémon** → Enter a name in the search bar.  
+2. **View Details** → Click a Pokémon card to see stats, abilities, and evolution chain.  
+3. **Explore TCG Cards** → Related trading cards display in details view.  
+4. **Take the Quiz** → Test knowledge of Pokémon types.  
 
-## Accessibility
+---
 
-This application is designed with accessibility in mind:
+## 📚 Research & Resources
 
-- **ARIA labels**: Used for enhancing screen reader accessibility.
-- **Keyboard Navigation**: Full keyboard navigation support.
-- **High Contrast**: Ensures readability for users with visual impairments.
+- [PokeAPI](https://pokeapi.co/) → Core Pokémon data  
+- [Pokémon TCG API](https://pokemontcg.io/) → TCG integration  
+- [MDN Web Docs](https://developer.mozilla.org/) → General references  
+- [W3C](https://www.w3.org/) → Standards and validation guidelines  
 
-## [Interactive live site](https://bradleymatera.github.io/TESTAPP/)
+---
+
+## ♿ Accessibility
+
+- 🏷️ **ARIA Labels** for screen readers  
+- ⌨️ **Keyboard Navigation** supported  
+- 🎨 **High Contrast Mode** for readability  
+
+---
+
+## 🌍 Live Demo  
+🔗 [Interactive Pokedex Site](https://bradleymatera.github.io/TESTAPP/)  
+
+---
+
+<p align="center">
+  <img src="https://komarev.com/ghpvc/?username=BradleyMatera&style=flat-square&color=blue" alt="Profile views" />
+</p>
