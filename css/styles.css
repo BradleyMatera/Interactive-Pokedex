@@ -30,7 +30,7 @@ body{
 /* Header (AppBar) */
 .dex-header{
   background: var(--brand);
-  width: 100%;
+  width: auto;
   position: sticky;
   top: 0;
   z-index: 100;
