@@ -1,4 +1,4 @@
-import { getPokemon, getSpecies, getEvolutionChainByUrl, getEncounters, getTcgCards } from './api.js';
+import { getPokemon, getSpecies, getEvolutionChainByUrl, getEncounters, getTcgCards, getMove, getLocationAreaByUrl, getLocationByUrl } from './api.js';
 import { colorOf, pad, primaryType } from './utils.js';
 
 export function initDetails(store){
@@ -36,6 +36,21 @@ export function initDetails(store){
     Object.keys(buttons).forEach(k=> buttons[k].setAttribute('aria-selected', String(k===key)));
     Object.keys(panels).forEach(k=> panels[k].classList.toggle('active', k===key));
   }
+
+  // Wire tab interactions (click + arrow key navigation)
+  Object.entries(buttons).forEach(([key, btn])=>{
+    if(!btn) return;
+    btn.addEventListener('click', ()=> setActiveTab(key));
+    btn.addEventListener('keydown', (e)=>{
+      if(e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const order = Object.keys(buttons);
+      const idx = order.indexOf(key);
+      const nextIdx = e.key === 'ArrowRight' ? (idx+1)%order.length : (idx-1+order.length)%order.length;
+      const nextKey = order[nextIdx];
+      setActiveTab(nextKey);
+      buttons[nextKey]?.focus();
+    });
+  });
 
   backBtn?.addEventListener('click', ()=> { history.pushState(null,'', '#/pokedex'); window.dispatchEvent(new PopStateEvent('popstate')); });
 
@@ -77,52 +92,128 @@ export function initDetails(store){
     document.getElementById('pokemon-description').textContent = flavor ? flavor.flavor_text.replace(/[\f\n]/g,' ') : '';
     const evo = await getEvolutionChainByUrl(species.evolution_chain.url);
     evolutionChainDiv.innerHTML = '';
-    const createStep = (step) => {
-      const id = step.species.url.split('/').filter(Boolean).pop();
-      const wrap = document.createElement('div'); wrap.className='flex items-center gap-3';
-      const card = document.createElement('div'); card.className='flex flex-col items-center';
-      const img = document.createElement('img'); img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`; img.width=72; img.height=72; img.alt=step.species.name; img.className='rounded-full bg-white p-2 shadow';
-      const name = document.createElement('div'); name.className='text-xs font-semibold capitalize mt-1'; name.textContent = step.species.name; card.append(img,name); wrap.appendChild(card); evolutionChainDiv.appendChild(wrap);
-      if (step.evolves_to && step.evolves_to.length){ const arrow = document.createElement('i'); arrow.className='fa-solid fa-chevron-right text-gray-300 text-lg'; evolutionChainDiv.appendChild(arrow); createStep(step.evolves_to[0]); }
-    };
-    createStep(evo.chain);
+    const list = document.createElement('div'); list.className = 'evo-list'; evolutionChainDiv.appendChild(list);
 
-    // breeding
+    const evoDetailLabel = (d) => {
+      if(!d) return '';
+      const trig = d.trigger?.name;
+      if (trig === 'level-up') {
+        if (d.min_level) return `Lvl ${d.min_level}`;
+        if (d.min_happiness) return 'High Friendship';
+        if (d.time_of_day) return `Level (${d.time_of_day})`;
+        if (d.known_move) return `Level with ${d.known_move.name.replace(/-/g,' ')}`;
+        if (d.known_move_type) return `Level with ${d.known_move_type.name} move`;
+        return 'Level up';
+      }
+      if (trig === 'use-item' && d.item) return `Use ${d.item.name.replace(/-/g,' ')}`;
+      if (trig === 'trade') {
+        if (d.held_item) return `Trade holding ${d.held_item.name.replace(/-/g,' ')}`;
+        return 'Trade';
+      }
+      return (trig || '').replace(/-/g,' ');
+    };
+
+    const pushStep = (node) => {
+      const id = node.species.url.split('/').filter(Boolean).pop();
+      const step = document.createElement('div'); step.className = 'evo-step';
+      const img = document.createElement('img'); img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`; img.alt = node.species.name;
+      const name = document.createElement('div'); name.className = 'name'; name.textContent = node.species.name;
+      step.append(img, name);
+      list.appendChild(step);
+    };
+
+    const walk = (node) => {
+      pushStep(node);
+      if (node.evolves_to && node.evolves_to.length){
+        const next = node.evolves_to[0];
+        const d = next.evolution_details?.[0];
+        const arrow = document.createElement('div'); arrow.className = 'evo-arrow';
+        arrow.innerHTML = `<i class="fa-solid fa-chevron-right"></i><span class="label">${evoDetailLabel(d)}</span>`;
+        list.appendChild(arrow);
+        walk(next);
+      }
+    };
+    walk(evo.chain);
+
+    // breeding (enhanced grid)
     const breeding = document.getElementById('breeding');
+    breeding.className = 'breeding-grid';
     const male = species.gender_rate === -1 ? '—' : `${Math.round((8 - species.gender_rate)/8*100)}% ♂`;
     const female = species.gender_rate === -1 ? '—' : `${Math.round(species.gender_rate/8*100)}% ♀`;
     breeding.innerHTML = `
-      <div><div class="text-gray-500 text-xs">Egg Groups</div><div class="font-semibold capitalize">${species.egg_groups.map(g=>g.name).join(', ')||'—'}</div></div>
-      <div><div class="text-gray-500 text-xs">Hatch Counter</div><div class="font-semibold">${species.hatch_counter ?? '—'}</div></div>
-      <div><div class="text-gray-500 text-xs">Gender</div><div class="font-semibold">${male} / ${female}</div></div>
-      <div><div class="text-gray-500 text-xs">Growth</div><div class="font-semibold capitalize">${species.growth_rate?.name || '—'}</div></div>
+      <div class="label">Egg Groups</div><div class="value capitalize">${species.egg_groups.map(g=>g.name.replace(/-/g,' ')).join(', ')||'—'}</div>
+      <div class="label">Hatch Counter</div><div class="value">${species.hatch_counter ?? '—'}</div>
+      <div class="label">Gender</div><div class="value">${male} / ${female}</div>
+      <div class="label">Growth</div><div class="value capitalize">${species.growth_rate?.name?.replace(/-/g,' ') || '—'}</div>
+      <div class="label">Capture Rate</div><div class="value">${species.capture_rate ?? '—'}</div>
+      <div class="label">Base Happiness</div><div class="value">${species.base_happiness ?? '—'}</div>
     `;
 
-    // moves
+    // moves (enhanced: show Level-up moves with type, power, acc, pp)
     const movesList = document.getElementById('moves-list');
-    const byMethod = { 'level-up': [], machine: [], tutor: [], egg: [] };
+    movesList.className = 'move-list';
+    const levelMoves = [];
     p.moves.forEach(m=>{
       const d = m.version_group_details?.[m.version_group_details.length-1];
-      if(!d) return; const method = d.move_learn_method.name;
-      const entry = { name: m.move.name, level: d.level_learned_at };
-      if(byMethod[method]) byMethod[method].push(entry);
+      if(!d) return;
+      if (d.move_learn_method.name === 'level-up'){
+        levelMoves.push({ name: m.move.name, level: d.level_learned_at });
+      }
     });
-    const section = (title, arr)=> arr.length? `<div class="mt-3"><div class="font-bold mb-1">${title}</div>`+arr.sort((a,b)=>(a.level||0)-(b.level||0)).map(it=>`<div class=\"flex justify-between border-b border-gray-100 py-1\"><span class=\"capitalize\">${it.name.replace(/-/g,' ')}<\/span><span class=\"text-gray-500\">${it.level? 'Lvl '+it.level:''}<\/span><\/div>`).join('')+`</div>` : '';
-    movesList.innerHTML = [
-      section('Level-up', byMethod['level-up']),
-      section('TM/HM (Machine)', byMethod['machine']),
-      section('Tutor', byMethod['tutor']),
-      section('Egg', byMethod['egg'])
-    ].join('');
+    levelMoves.sort((a,b)=>(a.level||0)-(b.level||0));
+    const top = levelMoves.slice(0, 20);
+    const moveDetails = await Promise.all(top.map(m=> getMove(m.name).catch(()=>null)));
+    movesList.innerHTML = '';
+    const header = document.createElement('div'); header.className = 'move-row';
+    header.innerHTML = '<div class="name">Move</div><div>Type</div><div>Power</div><div>Acc</div><div>PP</div>';
+    movesList.appendChild(header);
+    top.forEach((m, i)=>{
+      const d = moveDetails[i];
+      const type = d?.type?.name || 'normal';
+      const row = document.createElement('div'); row.className = 'move-row';
+      const nameEl = document.createElement('div'); nameEl.className = 'name'; nameEl.textContent = m.name.replace(/-/g,' ');
+      const badge = document.createElement('span'); badge.className = `type-badge type-${type}`; badge.textContent = type;
+      const power = document.createElement('div'); power.textContent = d?.power ?? '—';
+      const acc = document.createElement('div'); acc.textContent = d?.accuracy ? `${d.accuracy}%` : '—';
+      const pp = document.createElement('div'); pp.textContent = d?.pp ?? '—';
+      row.append(nameEl, badge, power, acc, pp);
+      movesList.appendChild(row);
+    });
 
-    // locations
+    // locations (enhanced: resolve areas -> location -> region)
     const locations = document.getElementById('locations');
     try {
       const enc = await getEncounters(p.id);
-      if(enc.length){
-        const unique = Array.from(new Set(enc.map(e=>e.location_area.name.replace(/-/g,' ')))).slice(0,20);
-        locations.innerHTML = unique.map(n=>`<div class=\"py-1 border-b border-gray-100 capitalize\">${n}<\/div>`).join('');
-      } else { locations.textContent = 'No encounter data available.'; }
+      if(!enc.length){
+        locations.textContent = 'No encounter data available.';
+      } else {
+        const urls = [];
+        const seen = new Set();
+        for(const e of enc){
+          const name = e.location_area.name;
+          if(!seen.has(name)){ seen.add(name); urls.push(e.location_area.url); }
+          if(urls.length >= 10) break;
+        }
+        const areas = await Promise.all(urls.map(u=> getLocationAreaByUrl(u).catch(()=>null)));
+        const locs = await Promise.all(areas.map(a=> a? getLocationByUrl(a.location.url).catch(()=>null) : null));
+        const regions = Array.from(new Set(locs.map(l=> l?.region?.name).filter(Boolean)));
+        const chips = regions.map(r=> `<span class="region-chip">${r.replace(/-/g,' ')}</span>`).join(' ');
+        const list = document.createElement('div'); list.className = 'loc-list';
+        list.innerHTML = areas.map((a, idx) => {
+          if(!a) return '';
+          const loc = locs[idx];
+          const areaName = a.names?.find(n=>n.language.name==='en')?.name || a.name.replace(/-/g,' ');
+          const region = loc?.region?.name?.replace(/-/g,' ') || '—';
+          return `<div class="loc-item"><span class="capitalize">${areaName}</span><span class="region-chip">${region}</span></div>`;
+        }).join('');
+        locations.innerHTML = chips;
+        const mini = document.createElement('div'); mini.className = 'mini-map';
+        const labels = areas.map(a => (a?.names?.find(n=>n.language.name==='en')?.name || a?.name?.replace(/-/g,' ') || '')).slice(0,5);
+        const regionLabel = (regions[0] || 'region').replace(/-/g,' ');
+        mini.innerHTML = `<svg viewBox="0 0 400 160" role="img" aria-label="${regionLabel} map"><rect x="0" y="0" width="400" height="160" rx="12" fill="#E6F0FF"></rect>${labels.map((label,i)=>`<circle cx="${40 + i*70}" cy="${80 + (i%2? -24: 24)}" r="10" fill="#ef4444"></circle>`).join('')}</svg>`;
+        locations.appendChild(mini);
+        locations.appendChild(list);
+      }
     } catch { locations.textContent = 'Failed to load locations.'; }
 
     // tcg

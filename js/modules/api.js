@@ -46,3 +46,28 @@ export async function getTcgCards(name){
   }catch{ return { data:[] }; }
 }
 
+export async function getMove(idOrName){
+  const key = `move:${idOrName}`; const c = getCache(key); if(c) return c;
+  const res = await fetch(`${BASE}/move/${idOrName}`);
+  const data = await res.json();
+  setCache(key, data);
+  return data;
+}
+
+export async function getLocationAreaByUrl(url){
+  const key = `locarea:${url}`;
+  const c = getCache(key); if(c) return c;
+  const res = await fetch(url);
+  const data = await res.json();
+  setCache(key, data);
+  return data;
+}
+
+export async function getLocationByUrl(url){
+  const key = `location:${url}`;
+  const c = getCache(key); if(c) return c;
+  const res = await fetch(url);
+  const data = await res.json();
+  setCache(key, data);
+  return data;
+}

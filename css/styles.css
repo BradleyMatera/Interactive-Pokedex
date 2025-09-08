@@ -350,3 +350,140 @@ input::placeholder{
 .fav-strip, .filters-scroll, #tcg-cards{
   scrollbar-gutter: stable both-edges;
 }
+
+/* ===== Details: Enhanced sections ===== */
+
+/* Evolution chain */
+.evo-list{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.evo-step{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: var(--shadow-2);
+  min-width: 110px;
+}
+.evo-step img{
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 50%;
+  padding: 6px;
+  box-shadow: 0 2px 8px rgba(16,24,40,.12);
+}
+.evo-step .name{
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.evo-step .method{
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+.evo-arrow{
+  color: #cbd5e1;
+  font-size: 18px;
+}
+.evo-arrow .label{
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  text-align: center;
+}
+
+/* Moves table */
+.move-list{
+  margin-top: 6px;
+}
+.move-row{
+  display: grid;
+  grid-template-columns: 1fr auto auto auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.move-row .name{
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.type-badge{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 12px;
+  color: #fff;
+}
+
+/* Breeding grid tweaks */
+.breeding-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+}
+.breeding-grid .label{
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+.breeding-grid .value{
+  font-weight: 700;
+}
+
+/* Location list */
+.loc-list{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+.loc-item{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: var(--surface);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(16,24,40,.06);
+}
+.region-chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: #eef2ff;
+  color: #111827;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Inline mini-map visualization in Location tab */
+.mini-map{
+  margin: 8px 0 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e6f0ff;
+  box-shadow: var(--shadow-2);
+}
+.mini-map svg{ display:block; width:100%; height:auto; }
+
+/* Moves header styling */
+.move-list .move-row:first-child{
+  font-weight: 700;
+  border-bottom-color: #e2e8f0;
+}
