@@ -4,70 +4,225 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Rubik:wght@400;600;800&family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-image: url('https://www.transparenttextures.com/patterns/white-diamond.png');
-      background-color: #f0f4f8;
-    }
-  </style>
+  <link rel="stylesheet" href="./css/styles.css?v=2">
   <title>Interactive Pokedex</title>
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <div class="container mx-auto p-4" id="main-container">
-    <header class="text-center mb-8">
-      <h1 class="text-4xl font-bold text-indigo-600" id="main-title">Interactive Pokedex</h1>
-      <label for="search-bar" class="sr-only">Search for a Pokemon</label>
-      <div class="relative max-w-md mx-auto">
-        <input type="text" id="search-bar" class="border p-2 w-full rounded" placeholder="Search for a Pokemon by name..." aria-label="Search for a Pokemon">
-        <i class="fas fa-search absolute right-3 top-3 text-gray-500"></i>
+<body class="text-gray-800">
+  <div class="app-shell" id="main-container">
+    <!-- Header / AppBar -->
+    <header class="dex-header container px-5 pt-6 pb-4 text-white">
+      <div class="flex items-center justify-between gap-3">
+        <button id="home-btn" class="flex items-center gap-2 font-extrabold tracking-tight" aria-label="Home">
+          <i class="fa-solid fa-house"></i>
+          <span class="title text-2xl">Pokédex</span>
+        </button>
+        <div class="flex items-center gap-3">
+          <label for="theme-select" class="sr-only">Theme</label>
+          <select id="theme-select" class="rounded-full bg-white/20 px-3 py-1 focus:ring-2 focus:ring-white">
+            <option value="flat">Modern Flat</option>
+            <option value="8bit">8-bit</option>
+            <option value="neon">Dark Neon</option>
+            <option value="gb">Retro GB</option>
+          </select>
+          <button id="fav-toggle" class="rounded-full bg-white/20 px-3 py-1 focus:ring-2 focus:ring-white" aria-pressed="false" aria-label="Toggle favorites">
+            <i class="fa-solid fa-star"></i>
+          </button>
+        </div>
+      </div>
+      <div id="toolbar-body" class="mt-4">
+        <div class="flex items-center gap-2 flex-wrap">
+          <button id="btn-search" class="type-chip" aria-haspopup="dialog"><i class="fa-solid fa-magnifying-glass mr-2"></i>Search</button>
+          <button id="btn-filters" class="type-chip" aria-haspopup="dialog"><i class="fa-solid fa-sliders mr-2"></i>Filters</button>
+        </div>
       </div>
     </header>
 
-    <section id="pokedex" class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4 text-indigo-500">Pokemon List</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="pokedex-grid" role="list">
-        <!-- Pokemon details will be injected here -->
-      </div>
-    </section>
+    <!-- List View -->
+    <main class="container px-5 pb-24" id="list-view">
+      <section aria-label="Pokémon Grid" class="mt-5">
+        <div id="favorites-strip" class="fav-strip hidden" aria-label="Favorites quick list"></div>
+        <div id="pokedex-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4" role="list"></div>
+        <div id="infinite-sentinel" class="h-8"></div>
+      </section>
+    </main>
 
-    <section id="pokemon-details" class="mb-8 hidden" aria-live="polite">
-      <h2 class="text-2xl font-semibold mb-4 text-indigo-500">Pokemon Details</h2>
-      <div class="p-4 bg-white rounded shadow">
-        <img id="pokemon-image" class="w-full rounded mb-4" alt="Pokemon Image">
-        <h3 class="text-xl font-semibold mb-2" id="pokemon-name"></h3>
-        <p id="pokemon-description"></p>
-        <div id="pokemon-tcg" class="mt-4"></div>
+    <!-- Details View -->
+    <section id="pokemon-details" class="hidden" aria-live="polite" aria-label="Pokémon Details">
+      <!-- Hero -->
+      <div class="details-hero container px-5 pt-6 pb-24">
+        <div class="flex items-center justify-between">
+          <button id="back-to-list" class="px-4 h-10 grid place-items-center rounded-full bg-white/20 text-white backdrop-blur hover:bg-white/30 focus:ring-2 focus:ring-white" aria-label="Back to Pokédex"><i class="fa-solid fa-chevron-left mr-2"></i><span class="hidden sm:inline">Back to Pokédex</span></button>
+          <div class="flex items-center gap-3">
+            <button id="fav-btn" class="h-10 w-10 grid place-items-center rounded-full bg-white/15 backdrop-blur hover:bg-white/25 focus:ring-2 focus:ring-white" aria-label="Favorite"><i class="fa-regular fa-star"></i></button>
+            <span id="detail-number" class="text-white/80 font-semibold"></span>
+          </div>
+        </div>
+        <div class="mt-4 hero-text">
+          <h2 id="pokemon-name" class="text-3xl font-extrabold"></h2>
+          <div id="type-chips" class="mt-2 flex gap-2"></div>
+        </div>
+        <div class="relative">
+          <img id="pokemon-image" alt="Pokemon artwork" class="hero-art" />
+        </div>
       </div>
-      <button id="back-to-list" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded">
-        <i class="fas fa-arrow-left mr-2"></i> Back to List
-      </button>
-    </section>
+      <!-- Body -->
+      <div class="container px-5 -mt-16 pb-28 space-y-5">
+        <!-- Tabs -->
+        <div id="details-tabs-bar">
+        <div class="tabs" role="tablist" aria-label="Pokemon details tabs">
+          <button class="tab-btn" role="tab" id="tab-desc" aria-controls="panel-desc" aria-selected="true">Description</button>
+          <button class="tab-btn" role="tab" id="tab-evo" aria-controls="panel-evo" aria-selected="false">Evolutions</button>
+          <button class="tab-btn" role="tab" id="tab-moves" aria-controls="panel-moves" aria-selected="false">Moves</button>
+          <button class="tab-btn" role="tab" id="tab-breed" aria-controls="panel-breed" aria-selected="false">Breeding</button>
+          <button class="tab-btn" role="tab" id="tab-loc" aria-controls="panel-loc" aria-selected="false">Location</button>
+        </div>
+        </div>
 
-    <section id="pokemon-evolution" class="mb-8 hidden">
-      <h2 class="text-2xl font-semibold mb-4 text-indigo-500">Evolution Chain</h2>
-      <div id="evolution-chain" class="p-4 bg-white rounded shadow">
-        <!-- Evolution chain details will be injected here -->
-      </div>
-    </section>
+        <!-- Panels -->
+        <section id="panel-desc" class="tabpanel active about-card p-5" role="tabpanel" aria-labelledby="tab-desc">
+          <h3 class="text-gray-800 font-bold text-lg mb-3">About</h3>
+          <div class="grid grid-cols-3 text-center">
+            <div>
+              <div class="text-gray-500 text-xs">Weight</div>
+              <div id="detail-weight" class="font-semibold">—</div>
+            </div>
+            <div>
+              <div class="text-gray-500 text-xs">Height</div>
+              <div id="detail-height" class="font-semibold">—</div>
+            </div>
+            <div>
+              <div class="text-gray-500 text-xs">Ability</div>
+              <div id="detail-ability" class="font-semibold">—</div>
+            </div>
+          </div>
+          <p id="pokemon-description" class="mt-3 text-sm text-gray-600"></p>
+          <div class="mt-4">
+            <h4 class="font-bold mb-2">Base Stats</h4>
+            <div id="stats"></div>
+          </div>
+        </section>
 
-    <section id="pokemon-quiz" class="mb-8">
-      <h2 class="text-2xl font-semibold mb-4 text-indigo-500">Pokemon Quiz</h2>
-      <div id="quiz" class="p-4 bg-white rounded shadow">
-        <button id="start-quiz" class="px-4 py-2 bg-green-500 text-white rounded">Start Quiz</button>
-        <div id="quiz-content" class="mt-4 hidden">
-          <p id="quiz-question" class="text-lg font-semibold"></p>
-          <div id="quiz-options" class="mt-2"></div>
-          <button id="submit-answer" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hidden">Submit Answer</button>
+        <section id="panel-evo" class="tabpanel about-card p-5" role="tabpanel" aria-labelledby="tab-evo">
+          <h3 class="text-gray-800 font-bold text-lg mb-3">Evolution Chain</h3>
+          <div id="evolution-chain" class="flex items-center flex-wrap gap-3"></div>
+        </section>
+
+        <section id="panel-moves" class="tabpanel about-card p-5" role="tabpanel" aria-labelledby="tab-moves">
+          <h3 class="text-gray-800 font-bold text-lg mb-3">Moves</h3>
+          <div id="moves-list" class="space-y-2 text-sm"></div>
+        </section>
+
+        <section id="panel-breed" class="tabpanel about-card p-5" role="tabpanel" aria-labelledby="tab-breed">
+          <h3 class="text-gray-800 font-bold text-lg mb-3">Breeding</h3>
+          <div id="breeding" class="text-sm grid grid-cols-2 gap-2"></div>
+        </section>
+
+        <section id="panel-loc" class="tabpanel about-card p-5" role="tabpanel" aria-labelledby="tab-loc">
+          <h3 class="text-gray-800 font-bold text-lg mb-3">Locations</h3>
+          <div id="locations" class="text-sm"></div>
+          <button id="open-map" class="mt-3 px-3 py-2 rounded bg-gray-900 text-white">Open Region Map</button>
+        </section>
+
+        <div class="about-card p-5" id="pokemon-tcg">
+          <h3 class="text-gray-800 font-bold text-lg mb-3">Trading Cards</h3>
+          <div id="tcg-cards" class="flex gap-3 overflow-x-auto"></div>
         </div>
       </div>
     </section>
+
+    <!-- Map View -->
+    <section id="map-view" class="container hidden px-5 pb-24" aria-label="Region Map">
+      <div class="flex items-center justify-between py-4">
+        <button id="back-from-map" class="h-10 w-10 grid place-items-center rounded-full bg-gray-200" aria-label="Back"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="flex items-center gap-2">
+          <h2 class="text-xl font-extrabold">Region</h2>
+          <select id="region-select" class="rounded bg-white px-2 py-1">
+            <option value="kanto">Kanto</option>
+            <option value="johto">Johto</option>
+            <option value="hoenn">Hoenn</option>
+            <option value="sinnoh">Sinnoh</option>
+            <option value="unova">Unova</option>
+            <option value="kalos">Kalos</option>
+            <option value="alola">Alola</option>
+            <option value="galar">Galar</option>
+            <option value="paldea">Paldea</option>
+          </select>
+        </div>
+        <div></div>
+      </div>
+      <div class="map-wrap p-3">
+        <!-- Simple illustrative map -->
+        <svg viewBox="0 0 400 260" class="w-full h-auto" role="img" aria-label="Kanto region map">
+          <rect x="0" y="0" width="400" height="260" rx="16" fill="#E6F0FF"></rect>
+          <circle class="route" id="route-1" tabindex="0" cx="150" cy="200" r="10" fill="#ef4444"></circle>
+          <text x="165" y="205" font-size="12" fill="#111827">Route 1</text>
+          <circle class="route" id="route-2" tabindex="0" cx="180" cy="160" r="10" fill="#10b981"></circle>
+          <text x="195" y="165" font-size="12" fill="#111827">Route 2</text>
+          <circle class="route" id="viridian-forest" tabindex="0" cx="220" cy="140" r="10" fill="#3b82f6"></circle>
+          <text x="235" y="145" font-size="12" fill="#111827">Viridian Forest</text>
+        </svg>
+      </div>
+      <div id="map-info" class="mt-3 text-sm"></div>
+    </section>
   </div>
+  <!-- Popout Modals -->
+  <div id="modal-search" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-search-title">
+    <div class="modal-card">
+      <div class="flex items-center justify-between mb-3">
+        <h3 id="modal-search-title" class="font-bold text-lg">Search</h3>
+        <button class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <label for="search-bar" class="sr-only">Search a Pokémon</label>
+      <div class="search-pill flex items-center gap-3 rounded-full px-4 py-2">
+        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        <input id="search-bar" placeholder="Search Pokémon or #" class="flex-1 bg-transparent text-gray-700 placeholder-gray-400" />
+        <button id="clear-search" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unified Filters Drawer -->
+  <div id="drawer-filters" class="drawer hidden" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <div class="drawer-panel">
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="drawer-title" class="font-extrabold text-xl">Filters</h3>
+        <button class="drawer-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <section class="mb-4">
+        <h4 class="font-bold mb-2">Generations</h4>
+        <div id="gen-filters" class="filters-row"></div>
+      </section>
+      <section class="mb-4">
+        <h4 class="font-bold mb-2">Types</h4>
+        <div id="type-filters" class="filters-row"></div>
+      </section>
+      <section class="mb-4">
+        <h4 class="font-bold mb-2">Sort</h4>
+        <label for="sort-select" class="sr-only">Sort</label>
+        <select id="sort-select" class="rounded bg-gray-100 px-3 py-2 w-full">
+          <option value="id-asc"># Ascending</option>
+          <option value="id-desc"># Descending</option>
+          <option value="name-asc">Name A–Z</option>
+          <option value="name-desc">Name Z–A</option>
+        </select>
+      </section>
+      <section class="mb-6">
+        <h4 class="font-bold mb-2">Favorites</h4>
+        <button id="fav-toggle-drawer" class="type-chip" aria-pressed="false"><i class="fa-solid fa-star mr-2"></i>Show favorites only</button>
+      </section>
+      <div class="text-right">
+        <button class="type-chip" id="drawer-apply">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="fixed left-1/2 -translate-x-1/2 bottom-6 px-4 py-2 rounded-lg bg-black text-white text-sm hidden" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="./js/main.js" defer></script>
+  <script type="module" src="./js/app.js"></script>
 </body>
 </html>
