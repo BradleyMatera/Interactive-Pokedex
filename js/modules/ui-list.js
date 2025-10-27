@@ -157,6 +157,20 @@ export function initList(store){
     renderTypeFilterChips();
     renderGenChips();
     await applyFilters();
+
+    // Preload all details in background
+    const preloadChunkSize = 50;
+    for (let i = 0; i < allList.length; i += preloadChunkSize) {
+      const chunk = allList.slice(i, i + preloadChunkSize);
+      await Promise.all(chunk.map(async entry => {
+        if (!cache.has(entry.id)) {
+          const data = await getPokemon(entry.id);
+          cache.set(entry.id, data);
+        }
+      }));
+      // Delay to respect rate limits
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
   })();
 
   const renderFavoritesStrip = () => {
