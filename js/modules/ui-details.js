@@ -162,7 +162,7 @@ export function initDetails(store){
     });
     levelMoves.sort((a,b)=>(a.level||0)-(b.level||0));
     const top = levelMoves.slice(0, 20);
-    const moveDetails = await Promise.all(top.map(m=> getMove(m.name).catch(()=>null)));
+    const moveDetails = p.moveDetails || await Promise.all(top.map(m=> getMove(m.name).catch(()=>null)));
     movesList.innerHTML = '';
     const header = document.createElement('div'); header.className = 'move-row';
     header.innerHTML = '<div class="name">Move</div><div>Type</div><div>Power</div><div>Acc</div><div>PP</div>';
