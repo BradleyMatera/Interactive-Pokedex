@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Button, Navbar as NextUINavbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Switch } from "@nextui-org/react";
 import { SunIcon, MoonIcon } from "lucide-react";
+import NextLink from "next/link";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -81,12 +82,12 @@ export default function Navbar() {
           <p className="font-bold text-inherit">Pokédex</p>
         </NavbarBrand>
         <NavbarItem>
-          <Link color="foreground" href="/">
+          <Link as={NextLink} color="foreground" href="/">
             Home
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="/types">
+          <Link as={NextLink} color="foreground" href="/types">
             Types
           </Link>
         </NavbarItem>
@@ -107,7 +108,7 @@ export default function Navbar() {
           />
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="/search" variant="flat">
+          <Button as={NextLink} color="primary" href="/search" variant="flat">
             Search
           </Button>
         </NavbarItem>
@@ -115,12 +116,12 @@ export default function Navbar() {
 
       <NavbarMenu>
         <NavbarMenuItem>
-          <Link className="w-full" href="/" size="lg">
+          <Link as={NextLink} className="w-full" href="/" size="lg">
             Home
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
-          <Link className="w-full" href="/types" size="lg">
+          <Link as={NextLink} className="w-full" href="/types" size="lg">
             Types
           </Link>
         </NavbarMenuItem>

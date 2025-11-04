@@ -6,6 +6,7 @@ import { PokemonList } from "@/components/PokemonList";
 import { usePokemon } from "@/contexts/PokemonContext";
 import SearchBar from "@/components/SearchBar";
 import { filterPokemon, type PokemonGridItem } from "@/utils/fetchPokemon";
+import NextLink from "next/link";
 
 export default function HomePage() {
   // State for search term
@@ -26,7 +27,7 @@ export default function HomePage() {
     <main className="container mx-auto px-4 sm:px-6 pb-24">
       {/* Hero Section */}
       <section className="text-center py-12 md:py-20">
-        <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent mb-4">
+  <h1 className="text-4xl md:text-6xl font-bold bg-linear-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent mb-4">
           Discover Pokémon
         </h1>
         <p className="text-lg md:text-xl text-default-600 max-w-2xl mx-auto mb-8">
@@ -37,7 +38,7 @@ export default function HomePage() {
         <div className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-4">
           <SearchBar onSearch={handleSearch} />
           <Button 
-            as="a" 
+            as={NextLink} 
             href="/types" 
             color="secondary" 
             variant="shadow"
