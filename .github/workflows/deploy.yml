@@ -25,14 +25,10 @@ jobs:
         uses: oven-sh/setup-bun@v1
 
       - name: Install dependencies
-        run: |
-          cd next-pokedex
-          bun install
+        run: bun install
 
       - name: Build project and export static files
-        run: |
-          cd next-pokedex
-          bun run build:pages
+        run: bun run build:pages
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -40,7 +36,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./docs
+          path: ./out
 
   deploy:
     environment:

@@ -1,80 +1,45 @@
-# 📘 Interactive Pokedex  
-[![HTML](https://img.shields.io/badge/HTML-5-E34F26?logo=html5&logoColor=white&style=for-the-badge)]()  
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?logo=tailwindcss&logoColor=white&style=for-the-badge)](https://tailwindcss.com/)  
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=for-the-badge)]()  
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)  
+# Interactive Pokédex
 
-> An **interactive Pokedex application** built with **HTML, Tailwind CSS, and JavaScript**, integrating multiple Pokémon APIs for a rich and engaging experience.  
+Next.js 16 + Bun powered Pokédex experience that ships as a static export for GitHub Pages at [`https://bradleymatera.github.io/Interactive-Pokedex/`](https://bradleymatera.github.io/Interactive-Pokedex/). The project now lives entirely at the repository root so local development and CI builds run from the same place.
 
----
+## Features
 
-## 🔗 APIs Used
+- Full Pokédex for the original 151 Pokémon with stats, abilities, moves, evolutions, locations, and TCG cards
+- Search and filtering with dark/light theme support
+- Fully responsive layout using Tailwind CSS v4 and NextUI
+- Static export via `next export` so GitHub Pages can host the site without a server
 
-1. **Pokémon API (PokeAPI)**  
-   - **Description**: Provides detailed Pokémon information (stats, types, abilities, evolution).  
-   - **Endpoint**: `https://pokeapi.co/api/v2/pokemon/{id or name}`  
-   - **Docs**: [PokeAPI Documentation](https://pokeapi.co/docs/v2)  
-
-2. **Pokémon TCG API**  
-   - **Description**: Provides Pokémon Trading Card Game data (cards, images, stats).  
-   - **Endpoint**: `https://api.pokemontcg.io/v2/cards?q=name:{name}`  
-   - **Docs**: [Pokémon TCG API Documentation](https://pokemontcg.io/)  
-
----
-
-## ✨ Features
-
-- 🔍 **Search Functionality** → Search Pokémon by name  
-- 📊 **Pokémon Details** → Stats, types, abilities, and more  
-- 🔗 **Evolution Chain** → Visual evolution progression  
-- 🎴 **Trading Cards** → Display Pokémon TCG cards  
-- ❓ **Pokémon Quiz** → Interactive quiz to test type knowledge  
-
----
-
-## ⚙️ Installation
+## Getting Started
 
 ```bash
-# Clone repository
-git clone https://github.com/your-username/interactive-pokedex.git
-cd interactive-pokedex
+bun install
+bun run dev
 ```
 
-Open `index.html` in your browser to run the application.  
+Open [http://localhost:3000](http://localhost:3000) after the dev server starts.
 
----
+## Build & Deploy
 
-## ▶ Usage
+```bash
+bun run build:pages
+```
 
-1. **Search Pokémon** → Enter a name in the search bar.  
-2. **View Details** → Click a Pokémon card to see stats, abilities, and evolution chain.  
-3. **Explore TCG Cards** → Related trading cards display in details view.  
-4. **Take the Quiz** → Test knowledge of Pokémon types.  
+`build:pages` runs `next build` (with `output: "export"`) and then touches `out/.nojekyll` so GitHub Pages serves the `_next/` assets correctly. Pushes to `main` trigger `.github/workflows/deploy.yml`, which builds the project inside GitHub Actions and publishes the contents of `out/` to GitHub Pages.
 
----
+### Manual Deploy
 
-## 📚 Research & Resources
+1. `bun run build:pages`
+2. (Optional) Inspect the generated `out/` directory (git ignored)
+3. Dispatch the “Deploy to GitHub Pages” workflow if you need to redeploy without a push
 
-- [PokeAPI](https://pokeapi.co/) → Core Pokémon data  
-- [Pokémon TCG API](https://pokemontcg.io/) → TCG integration  
-- [MDN Web Docs](https://developer.mozilla.org/) → General references  
-- [W3C](https://www.w3.org/) → Standards and validation guidelines  
+## Repository Structure
 
----
+- `src/` – Next.js application code (App Router)
+- `public/` – Static assets served as-is
+- `scripts/` – Build helpers (currently `sync-docs.ts`)
+- `docs/` – Project documentation (deployment notes, architecture, etc.)
+- `old-site/` – Archived HTML/CSS/JS implementation that formerly powered the site
 
-## ♿ Accessibility
+## Legacy Static Site
 
-- 🏷️ **ARIA Labels** for screen readers  
-- ⌨️ **Keyboard Navigation** supported  
-- 🎨 **High Contrast Mode** for readability  
-
----
-
-## 🌍 Live Demo  
-🔗 [Interactive Pokedex Site](https://bradleymatera.github.io/TESTAPP/)  
-
----
-
-<p align="center">
-  <img src="https://komarev.com/ghpvc/?username=BradleyMatera&style=flat-square&color=blue" alt="Profile views" />
-</p>
+All assets from the original hand-rolled Pokédex now live in `old-site/` for reference. They are excluded from the build and deployment pipeline but kept so nothing is lost.
