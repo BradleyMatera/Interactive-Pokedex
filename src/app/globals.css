@@ -81,23 +81,41 @@
     
     /* Pokemon type colors for dark mode */
     --type-normal: #8a8a62;
+    --type-normal50: #8a8a6280;
     --type-fire: #d8702a;
+    --type-fire50: #d8702a80;
     --type-water: #5a7ad8;
+    --type-water50: #5a7ad880;
     --type-electric: #e0b82a;
+    --type-electric50: #e0b82a80;
     --type-grass: #62a840;
+    --type-grass50: #62a84080;
     --type-ice: #7abdbd;
+    --type-ice50: #7abdbd80;
     --type-fighting: #a82a24;
+    --type-fighting50: #a82a2480;
     --type-poison: #8a368a;
+    --type-poison50: #8a368a80;
     --type-ground: #c8a85a;
+    --type-ground50: #c8a85a80;
     --type-flying: #8a7ad8;
+    --type-flying50: #8a7ad880;
     --type-psychic: #d84a70;
+    --type-psychic50: #d84a7080;
     --type-bug: #8a9a1a;
+    --type-bug50: #8a9a1a80;
     --type-rock: #9a862a;
+    --type-rock50: #9a862a80;
     --type-ghost: #5a4a7a;
+    --type-ghost50: #5a4a7a80;
     --type-dark: #5a4a3a;
+    --type-dark50: #5a4a3a80;
     --type-dragon: #5a2ad8;
+    --type-dragon50: #5a2ad880;
     --type-steel: #9a9ab0;
+    --type-steel50: #9a9ab080;
     --type-fairy: #d87a8a;
+    --type-fairy50: #d87a8a80;
   }
 }
 
@@ -109,10 +127,6 @@ body {
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-  
   /* Gradient utilities */
   .bg-gradient-primary {
     background: var(--gradient-primary);
@@ -137,6 +151,124 @@ body {
   .bg-gradient-grass {
     background: var(--gradient-grass);
   }
+
+  .stat-progress {
+    width: 100%;
+    height: 0.75rem;
+    border-radius: 9999px;
+    overflow: hidden;
+    appearance: none;
+    background-color: rgba(15, 23, 42, 0.1); /* slate-900/10 */
+  }
+
+  .stat-progress::-webkit-progress-bar {
+    background-color: rgba(15, 23, 42, 0.1);
+    border-radius: 9999px;
+  }
+
+  .stat-progress::-webkit-progress-value {
+    background-color: var(--progress-color, var(--type-normal));
+    border-radius: 9999px;
+    transition: width 0.6s ease;
+  }
+
+  .stat-progress::-moz-progress-bar {
+    background-color: var(--progress-color, var(--type-normal));
+    border-radius: 9999px;
+    transition: width 0.6s ease;
+  }
+
+  /* Type card gradients */
+  .type-card-gradient-normal {
+    background: linear-gradient(135deg, var(--type-normal), var(--type-normal50));
+  }
+
+  .type-card-gradient-fire {
+    background: linear-gradient(135deg, var(--type-fire), var(--type-fire50));
+  }
+
+  .type-card-gradient-water {
+    background: linear-gradient(135deg, var(--type-water), var(--type-water50));
+  }
+
+  .type-card-gradient-electric {
+    background: linear-gradient(135deg, var(--type-electric), var(--type-electric50));
+  }
+
+  .type-card-gradient-grass {
+    background: linear-gradient(135deg, var(--type-grass), var(--type-grass50));
+  }
+
+  .type-card-gradient-ice {
+    background: linear-gradient(135deg, var(--type-ice), var(--type-ice50));
+  }
+
+  .type-card-gradient-fighting {
+    background: linear-gradient(135deg, var(--type-fighting), var(--type-fighting50));
+  }
+
+  .type-card-gradient-poison {
+    background: linear-gradient(135deg, var(--type-poison), var(--type-poison50));
+  }
+
+  .type-card-gradient-ground {
+    background: linear-gradient(135deg, var(--type-ground), var(--type-ground50));
+  }
+
+  .type-card-gradient-flying {
+    background: linear-gradient(135deg, var(--type-flying), var(--type-flying50));
+  }
+
+  .type-card-gradient-psychic {
+    background: linear-gradient(135deg, var(--type-psychic), var(--type-psychic50));
+  }
+
+  .type-card-gradient-bug {
+    background: linear-gradient(135deg, var(--type-bug), var(--type-bug50));
+  }
+
+  .type-card-gradient-rock {
+    background: linear-gradient(135deg, var(--type-rock), var(--type-rock50));
+  }
+
+  .type-card-gradient-ghost {
+    background: linear-gradient(135deg, var(--type-ghost), var(--type-ghost50));
+  }
+
+  .type-card-gradient-dark {
+    background: linear-gradient(135deg, var(--type-dark), var(--type-dark50));
+  }
+
+  .type-card-gradient-dragon {
+    background: linear-gradient(135deg, var(--type-dragon), var(--type-dragon50));
+  }
+
+  .type-card-gradient-steel {
+    background: linear-gradient(135deg, var(--type-steel), var(--type-steel50));
+  }
+
+  .type-card-gradient-fairy {
+    background: linear-gradient(135deg, var(--type-fairy), var(--type-fairy50));
+  }
+
+  .type-progress-normal { --progress-color: var(--type-normal); }
+  .type-progress-fire { --progress-color: var(--type-fire); }
+  .type-progress-water { --progress-color: var(--type-water); }
+  .type-progress-electric { --progress-color: var(--type-electric); }
+  .type-progress-grass { --progress-color: var(--type-grass); }
+  .type-progress-ice { --progress-color: var(--type-ice); }
+  .type-progress-fighting { --progress-color: var(--type-fighting); }
+  .type-progress-poison { --progress-color: var(--type-poison); }
+  .type-progress-ground { --progress-color: var(--type-ground); }
+  .type-progress-flying { --progress-color: var(--type-flying); }
+  .type-progress-psychic { --progress-color: var(--type-psychic); }
+  .type-progress-bug { --progress-color: var(--type-bug); }
+  .type-progress-rock { --progress-color: var(--type-rock); }
+  .type-progress-ghost { --progress-color: var(--type-ghost); }
+  .type-progress-dark { --progress-color: var(--type-dark); }
+  .type-progress-dragon { --progress-color: var(--type-dragon); }
+  .type-progress-steel { --progress-color: var(--type-steel); }
+  .type-progress-fairy { --progress-color: var(--type-fairy); }
   
   /* Animation utilities */
   .animate-fade-in {

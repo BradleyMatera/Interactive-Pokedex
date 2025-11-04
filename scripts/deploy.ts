@@ -1,5 +1,4 @@
 #!/usr/bin/env bun
-// @ts-nocheck
 import { $ } from "bun";
 
 async function run() {

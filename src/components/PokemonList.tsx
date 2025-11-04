@@ -14,6 +14,21 @@ interface PokemonListProps {
 }
 
 export const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading, error }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
+
+  const filteredPokemon = useMemo(() => {
+    return pokemons.filter((pokemon) => pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  }, [pokemons, searchTerm]);
+
+  const paginatedPokemon = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredPokemon.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredPokemon, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredPokemon.length / itemsPerPage);
+
   // If loading, show loading state
   if (loading) {
     return (
@@ -33,30 +48,13 @@ export const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading, err
   }
 
   // If no pokemons, show empty state
-  if (!pokemons || pokemons.length === 0) {
+  if (pokemons.length === 0) {
     return (
       <div className="flex justify-center items-center h-64">
         <p>No Pokémon found</p>
       </div>
     );
   }
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
-
-  const filteredPokemon = useMemo(() => {
-    return pokemons.filter(pokemon =>
-      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [pokemons, searchTerm]);
-
-  const paginatedPokemon = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredPokemon.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredPokemon, currentPage]);
-
-  const totalPages = Math.ceil(filteredPokemon.length / itemsPerPage);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -83,7 +81,7 @@ export const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading, err
           }}
           placeholder="Search Pokémon..."
           startContent={
-            <div className="text-black/50 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0">
+            <div className="text-black/50 dark:text-white/90 pointer-events-none shrink-0">
               <SearchIcon />
             </div>
           }
@@ -102,6 +100,7 @@ export const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading, err
             key={pokemon.id} 
             name={pokemon.name}
             image={pokemon.image}
+            imageVariants={pokemon.imageVariants}
             types={pokemon.types}
             number={pokemon.id}
           />

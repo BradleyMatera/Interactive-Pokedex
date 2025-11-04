@@ -9,16 +9,13 @@ interface TypeBadgeProps {
 }
 
 export const TypeBadge: React.FC<TypeBadgeProps> = ({ type, size = "sm" }) => {
-  const { getTypeColor } = useTypeColors();
-  const color = getTypeColor(type);
+  const normalized = type.toLowerCase();
+  const { typeColors } = useTypeColors();
+  const safeType = typeColors[normalized] ? normalized : "normal";
+  const className = `capitalize animate-fade-in type-chip type-${safeType}`;
 
   return (
-    <Chip
-      className="capitalize animate-fade-in"
-      color={color as any}
-      variant="flat"
-      size={size}
-    >
+    <Chip className={className} variant="solid" size={size}>
       {type}
     </Chip>
   );

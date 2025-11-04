@@ -6,7 +6,14 @@ const nextConfig = {
   output: "export",
   trailingSlash: true,
   images: {
-    unoptimized: true
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+        pathname: "/PokeAPI/sprites/**",
+      },
+    ],
   },
   // Apply GitHub Pages base path only in production to keep local dev on /
   basePath: isProd ? "/Interactive-Pokedex" : undefined,
