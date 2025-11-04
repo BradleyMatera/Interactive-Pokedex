@@ -1,4 +1,6 @@
 // Next.js config for Bun workflows and GitHub Pages static export
+const isProd = process.env.NODE_ENV === "production";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
@@ -6,8 +8,9 @@ const nextConfig = {
   images: {
     unoptimized: true
   },
-  // Set basePath if deploying to a subfolder (e.g., /repo-name)
-  basePath: "/Interactive-Pokedex", // For GitHub Pages deployment
+  // Apply GitHub Pages base path only in production to keep local dev on /
+  basePath: isProd ? "/Interactive-Pokedex" : undefined,
+  assetPrefix: isProd ? "/Interactive-Pokedex/" : undefined,
 };
 
 export default nextConfig;
