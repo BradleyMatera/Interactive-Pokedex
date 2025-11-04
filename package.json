@@ -7,7 +7,8 @@
     "build": "bun run next build",
     "build:pages": "bun run next build && bun scripts/post-export.ts",
     "start": "bun run next start",
-    "lint": "bun run eslint"
+    "lint": "bun run eslint",
+    "deploy": "bun scripts/deploy.ts"
   },
   "dependencies": {
     "@nextui-org/react": "^2.6.11",

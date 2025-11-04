@@ -26,6 +26,14 @@ bun run build:pages
 
 `build:pages` runs `next build` (with `output: "export"`) and then touches `out/.nojekyll` so GitHub Pages serves the `_next/` assets correctly. Pushes to `main` trigger `.github/workflows/deploy.yml`, which builds the project inside GitHub Actions and publishes the contents of `out/` to GitHub Pages.
 
+### One-Command Deploy
+
+```bash
+bun deploy
+```
+
+`bun deploy` verifies the working tree is clean, ensures you are on `main`, builds the static export, and pushes commits to `origin/main` so the Pages workflow kicks off automatically.
+
 ### Manual Deploy
 
 1. `bun run build:pages`
@@ -38,8 +46,7 @@ bun run build:pages
 - `public/` – Static assets served as-is
 - `scripts/` – Build helpers (currently `sync-docs.ts`)
 - `docs/` – Project documentation (deployment notes, architecture, etc.)
-- `old-site/` – Archived HTML/CSS/JS implementation that formerly powered the site
 
 ## Legacy Static Site
 
-All assets from the original hand-rolled Pokédex now live in `old-site/` for reference. They are excluded from the build and deployment pipeline but kept so nothing is lost.
+The legacy hand-rolled Pokédex has been removed from the repository to guarantee it can’t ship with the production build. If you ever need those assets again, retrieve them from the Git history instead of reintroducing them to `main`.

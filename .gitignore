@@ -40,3 +40,6 @@ next-env.d.ts
 
 # project data
 data.json
+
+# legacy archive
+old-site/
