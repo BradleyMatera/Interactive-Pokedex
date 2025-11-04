@@ -76,7 +76,17 @@ The static files will be generated in the `docs/` directory.
 
 ## Deployment
 
-### GitHub Pages
+### GitHub Pages (Automatic Deployment)
+
+This project includes a GitHub Actions workflow for automatic deployment to GitHub Pages:
+
+1. Any push to the `main` branch will automatically trigger the deployment workflow
+2. The workflow will build the project and export static files to the `docs/` directory
+3. GitHub Pages will automatically serve the content from the `docs/` directory
+
+### Manual Deployment
+
+If you prefer to deploy manually:
 
 1. Build the static files:
    ```bash
