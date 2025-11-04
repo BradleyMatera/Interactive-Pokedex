@@ -7,10 +7,10 @@ if (!Array.isArray(globalThis.TURBOPACK)) {
     return;
 }
 
-const CHUNK_BASE_PATH = "/_next/";
+const CHUNK_BASE_PATH = "/Interactive-Pokedex/_next/";
 const CHUNK_SUFFIX_PATH = "";
 const RELATIVE_ROOT_PATH = "/ROOT";
-const RUNTIME_PUBLIC_PATH = "/_next/";
+const RUNTIME_PUBLIC_PATH = "/Interactive-Pokedex/_next/";
 /**
  * This file contains runtime types and functions that are shared between all
  * TurboPack ECMAScript runtimes.
@@ -1833,4 +1833,4 @@ chunkListsToRegister.forEach(registerChunkList);
 })();
 
 
-//# sourceMappingURL=next-pokedex_69e6e63e._.js.map
+//# sourceMappingURL=next-pokedex_4de8018d._.js.map

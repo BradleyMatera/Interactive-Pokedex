@@ -1533,7 +1533,7 @@ Object.defineProperty(exports, "findSourceMapURL", {
         return findSourceMapURL;
     }
 });
-const basePath = ("TURBOPACK compile-time value", "") || '';
+const basePath = ("TURBOPACK compile-time value", "/Interactive-Pokedex") || '';
 const pathname = `${basePath}/__nextjs_source-map`;
 const findSourceMapURL = ("TURBOPACK compile-time truthy", 1) ? function findSourceMapURL(filename) {
     if (filename === '') {
@@ -1849,7 +1849,7 @@ Object.defineProperty(exports, "addBasePath", {
 });
 const _addpathprefix = __turbopack_context__.r("[project]/next-pokedex/node_modules/next/dist/shared/lib/router/utils/add-path-prefix.js [app-client] (ecmascript)");
 const _normalizetrailingslash = __turbopack_context__.r("[project]/next-pokedex/node_modules/next/dist/client/normalize-trailing-slash.js [app-client] (ecmascript)");
-const basePath = ("TURBOPACK compile-time value", "") || '';
+const basePath = ("TURBOPACK compile-time value", "/Interactive-Pokedex") || '';
 function addBasePath(path, required) {
     return (0, _normalizetrailingslash.normalizePathTrailingSlash)(("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : (0, _addpathprefix.addPathPrefix)(path, basePath));
 }
@@ -9343,7 +9343,7 @@ Object.defineProperty(exports, "hasBasePath", {
     }
 });
 const _pathhasprefix = __turbopack_context__.r("[project]/next-pokedex/node_modules/next/dist/shared/lib/router/utils/path-has-prefix.js [app-client] (ecmascript)");
-const basePath = ("TURBOPACK compile-time value", "") || '';
+const basePath = ("TURBOPACK compile-time value", "/Interactive-Pokedex") || '';
 function hasBasePath(path) {
     return (0, _pathhasprefix.pathHasPrefix)(path, basePath);
 }
@@ -9370,7 +9370,7 @@ Object.defineProperty(exports, "removeBasePath", {
     }
 });
 const _hasbasepath = __turbopack_context__.r("[project]/next-pokedex/node_modules/next/dist/client/has-base-path.js [app-client] (ecmascript)");
-const basePath = ("TURBOPACK compile-time value", "") || '';
+const basePath = ("TURBOPACK compile-time value", "/Interactive-Pokedex") || '';
 function removeBasePath(path) {
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;

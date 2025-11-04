@@ -29,12 +29,7 @@ jobs:
           cd next-pokedex
           bun install
 
-      - name: Build project
-        run: |
-          cd next-pokedex
-          bun run build
-
-      - name: Export static files
+      - name: Build project and export static files
         run: |
           cd next-pokedex
           bun run build:pages
