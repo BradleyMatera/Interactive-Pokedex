@@ -3,6 +3,7 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { PokemonProvider } from "@/contexts/PokemonContext";
+import { ItemProvider } from "@/contexts/ItemContext";
 import { useEffect } from "react";
 
 function LegacyServiceWorkerCleanup() {
@@ -49,9 +50,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
         themes={['light', 'dark']}
       >
         <LegacyServiceWorkerCleanup />
-        <PokemonProvider>
-          {children}
-        </PokemonProvider>
+        <ItemProvider>
+          <PokemonProvider>
+            {children}
+          </PokemonProvider>
+        </ItemProvider>
       </NextThemesProvider>
     </NextUIProvider>
   );

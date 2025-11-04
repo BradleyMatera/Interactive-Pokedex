@@ -84,6 +84,16 @@ export default function HomePage() {
             >
               Browse Types
             </Button>
+            <Button
+              as={NextLink}
+              href="/items"
+              color="primary"
+              variant="bordered"
+              className="min-h-12 w-full font-medium sm:w-auto"
+              radius="full"
+            >
+              Item Dex
+            </Button>
           </div>
         </div>
       </section>

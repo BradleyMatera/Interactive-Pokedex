@@ -98,11 +98,12 @@ export const PokemonList: React.FC<PokemonListProps> = ({ pokemons, loading, err
         {paginatedPokemon.map((pokemon) => (
           <PokemonCard 
             key={pokemon.id} 
+            id={pokemon.id}
             name={pokemon.name}
-            image={pokemon.image}
-            imageVariants={pokemon.imageVariants}
             types={pokemon.types}
-            number={pokemon.id}
+            sprites={pokemon.sprites}
+            primarySpriteKey={pokemon.primarySpriteKey}
+            dexNumber={pokemon.id}
           />
         ))}
       </div>

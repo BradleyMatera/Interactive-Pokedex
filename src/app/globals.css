@@ -269,6 +269,55 @@ body {
   .type-progress-dragon { --progress-color: var(--type-dragon); }
   .type-progress-steel { --progress-color: var(--type-steel); }
   .type-progress-fairy { --progress-color: var(--type-fairy); }
+
+  .move-card {
+    position: relative;
+    border-radius: 0.75rem;
+    border: 1px solid var(--card-border);
+    background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .dark .move-card {
+    background: rgba(17, 24, 39, 0.65);
+    border-color: rgba(148, 163, 184, 0.25);
+  }
+
+  .move-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--move-glow, rgba(168, 168, 120, 0.25)) 0%, transparent 70%);
+    opacity: 0.9;
+    z-index: 0;
+  }
+
+  .move-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .move-card.type-normal { --move-glow: var(--type-normal50); }
+  .move-card.type-fire { --move-glow: var(--type-fire50); }
+  .move-card.type-water { --move-glow: var(--type-water50); }
+  .move-card.type-electric { --move-glow: var(--type-electric50); }
+  .move-card.type-grass { --move-glow: var(--type-grass50); }
+  .move-card.type-ice { --move-glow: var(--type-ice50); }
+  .move-card.type-fighting { --move-glow: var(--type-fighting50); }
+  .move-card.type-poison { --move-glow: var(--type-poison50); }
+  .move-card.type-ground { --move-glow: var(--type-ground50); }
+  .move-card.type-flying { --move-glow: var(--type-flying50); }
+  .move-card.type-psychic { --move-glow: var(--type-psychic50); }
+  .move-card.type-bug { --move-glow: var(--type-bug50); }
+  .move-card.type-rock { --move-glow: var(--type-rock50); }
+  .move-card.type-ghost { --move-glow: var(--type-ghost50); }
+  .move-card.type-dark { --move-glow: var(--type-dark50); }
+  .move-card.type-dragon { --move-glow: var(--type-dragon50); }
+  .move-card.type-steel { --move-glow: var(--type-steel50); }
+  .move-card.type-fairy { --move-glow: var(--type-fairy50); }
   
   /* Animation utilities */
   .animate-fade-in {
