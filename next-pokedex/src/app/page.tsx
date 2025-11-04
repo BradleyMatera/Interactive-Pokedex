@@ -1,21 +1,22 @@
 // Main Pokédex grid page using NextUI and Tailwind
 "use client";
 import { Card, Chip, Input, Button, Divider } from "@nextui-org/react";
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
+import Navbar from "../components/Navbar";
 import PokemonCard from "../components/PokemonCard";
-import type { PokemonGridItem } from "../utils/fetchPokemon";
+import { filterPokemon, type PokemonGridItem } from "../utils/fetchPokemon";
+import { usePokemon } from "@/contexts/PokemonContext";
 
 export default function PokedexPage() {
-  // Placeholder for search/filter state
+  // State for search term
   const [search, setSearch] = useState("");
-  // State for Pokémon list
-  const [pokemons, setPokemons] = useState<PokemonGridItem[]>([]);
-  // Fetch Pokémon data on mount
-  useEffect(() => {
-    import("../utils/fetchPokemon").then(({ fetchSamplePokemon }) => {
-      fetchSamplePokemon().then(setPokemons);
-    });
-  }, []);
+  // Get Pokémon data from context
+  const { pokemonList, loading, error } = usePokemon();
+  
+  // Filter Pokémon based on search term
+  const filteredPokemons = useMemo(() => {
+    return filterPokemon(pokemonList as PokemonGridItem[], search);
+  }, [pokemonList, search]);
 
   return (
     <main className="container mx-auto px-5 pb-24">
@@ -41,17 +42,28 @@ export default function PokedexPage() {
       </header>
       <Divider className="my-4" />
       <section aria-label="Pokémon Grid" className="mt-5">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4" role="list">
-          {pokemons.map((p) => (
-            <PokemonCard
-              key={p.id}
-              name={p.name}
-              image={p.image}
-              types={p.types}
-              number={p.id}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <p>Loading Pokémon...</p>
+          </div>
+        ) : error ? (
+          <div className="flex justify-center items-center h-64">
+            <p>Error loading Pokémon: {error}</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" role="list">
+            {filteredPokemons.map((p) => (
+              <div key={p.id} role="listitem">
+                <PokemonCard
+                  name={p.name}
+                  image={p.image}
+                  types={p.types}
+                  number={p.id}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );

@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Interactive Pokédex
+
+A modern, interactive Pokédex application built with Next.js 16, Bun, Tailwind CSS, and NextUI.
+
+## Features
+
+- **Comprehensive Pokémon Database**: Browse through all 151 original Pokémon with detailed information
+- **Search & Filter**: Easily find Pokémon by name or number
+- **Detailed Pokémon Pages**: View comprehensive information including:
+  - Stats and abilities
+  - Evolution chains
+  - Moves and breeding information
+  - Locations and more
+- **Dark/Light Theme**: Toggle between dark and light modes
+- **Responsive Design**: Works on all device sizes
+- **Static Export**: Ready for deployment to GitHub Pages
+
+## Tech Stack
+
+- **Next.js 16** with App Router and TypeScript
+- **Bun** as package manager and runtime
+- **Tailwind CSS** v4 for styling
+- **NextUI** for components and design system
+- **PokeAPI** for Pokémon data
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- [Bun](https://bun.sh/) installed on your machine
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd next-pokedex
+   ```
+
+3. Install dependencies:
+   ```bash
+   bun install
+   ```
+
+### Development
+
+Run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Building
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Build the application for production:
 
-## Learn More
+```bash
+bun run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Static Export
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Export the application as static files for GitHub Pages:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+bun run build:pages
+```
 
-## Deploy on Vercel
+The static files will be generated in the `docs/` directory.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### GitHub Pages
+
+1. Build the static files:
+   ```bash
+   bun run build:pages
+   ```
+
+2. Commit and push the `docs/` directory to your GitHub repository
+
+3. In your GitHub repository settings, set the GitHub Pages source to the `docs/` directory
+
+## Project Structure
+
+```
+next-pokedex/
+├── app/                 # Next.js app router pages
+│   ├── pokemon/         # Pokémon list page
+│   ├── pokemon/[name]/  # Individual Pokémon detail pages
+│   └── globals.css      # Global styles
+├── components/          # Reusable UI components
+├── utils/               # Utility functions
+├── docs/                # Static export output (GitHub Pages)
+├── public/              # Static assets
+├── next.config.ts       # Next.js configuration
+├── package.json         # Project dependencies and scripts
+└── tsconfig.json        # TypeScript configuration
+```
+
+## Scripts
+
+- `bun run dev` - Start the development server
+- `bun run build` - Build the application for production
+- `bun run build:pages` - Export the application as static files
+- `bun run start` - Start the production server
+- `bun run lint` - Run ESLint
+
+## Future Enhancements
+
+See [TODO.md](TODO.md) for planned features and improvements.
+
+## License
+
+This project is licensed under the MIT License.

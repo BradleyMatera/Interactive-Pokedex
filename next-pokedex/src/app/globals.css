@@ -1,26 +1,187 @@
 @import "tailwindcss";
 
+/* Pokemon-themed color palette */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --background: #f8f9fa;
+  --foreground: #212529;
+  --primary: #e3350d;
+  --primary-hover: #c42b1c;
+  --secondary: #3b4cca;
+  --accent: #ff9900;
+  --card-bg: #ffffff;
+  --card-border: #e9ecef;
+  --text-muted: #6c757d;
+  --success: #28a745;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --info: #17a2b8;
+  
+  /* Pokemon type colors */
+  --type-normal: #a8a878;
+  --type-fire: #f08030;
+  --type-water: #6890f0;
+  --type-electric: #f8d030;
+  --type-grass: #78c850;
+  --type-ice: #98d8d8;
+  --type-fighting: #c03028;
+  --type-poison: #a040a0;
+  --type-ground: #e0c068;
+  --type-flying: #a890f0;
+  --type-psychic: #f85888;
+  --type-bug: #a8b820;
+  --type-rock: #b8a038;
+  --type-ghost: #705898;
+  --type-dark: #705848;
+  --type-dragon: #7038f8;
+  --type-steel: #b8b8d0;
+  --type-fairy: #ee99ac;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #121212;
+    --foreground: #f8f9fa;
+    --primary: #ff6b6b;
+    --primary-hover: #ff5252;
+    --secondary: #5c6bc0;
+    --accent: #ffd166;
+    --card-bg: #1e1e1e;
+    --card-border: #343a40;
+    --text-muted: #adb5bd;
+    --success: #4caf50;
+    --warning: #ffc107;
+    --danger: #f44336;
+    --info: #2196f3;
+    
+    /* Pokemon type colors for dark mode */
+    --type-normal: #8a8a62;
+    --type-fire: #d8702a;
+    --type-water: #5a7ad8;
+    --type-electric: #e0b82a;
+    --type-grass: #62a840;
+    --type-ice: #7abdbd;
+    --type-fighting: #a82a24;
+    --type-poison: #8a368a;
+    --type-ground: #c8a85a;
+    --type-flying: #8a7ad8;
+    --type-psychic: #d84a70;
+    --type-bug: #8a9a1a;
+    --type-rock: #9a862a;
+    --type-ghost: #5a4a7a;
+    --type-dark: #5a4a3a;
+    --type-dragon: #5a2ad8;
+    --type-steel: #9a9ab0;
+    --type-fairy: #d87a8a;
   }
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Pokemon type chip styles */
+  .type-chip {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+  }
+  
+  .type-normal {
+    background-color: var(--type-normal) !important;
+    color: white !important;
+  }
+  
+  .type-fire {
+    background-color: var(--type-fire) !important;
+    color: white !important;
+  }
+  
+  .type-water {
+    background-color: var(--type-water) !important;
+    color: white !important;
+  }
+  
+  .type-electric {
+    background-color: var(--type-electric) !important;
+    color: #212529 !important;
+  }
+  
+  .type-grass {
+    background-color: var(--type-grass) !important;
+    color: white !important;
+  }
+  
+  .type-ice {
+    background-color: var(--type-ice) !important;
+    color: #212529 !important;
+  }
+  
+  .type-fighting {
+    background-color: var(--type-fighting) !important;
+    color: white !important;
+  }
+  
+  .type-poison {
+    background-color: var(--type-poison) !important;
+    color: white !important;
+  }
+  
+  .type-ground {
+    background-color: var(--type-ground) !important;
+    color: #212529 !important;
+  }
+  
+  .type-flying {
+    background-color: var(--type-flying) !important;
+    color: white !important;
+  }
+  
+  .type-psychic {
+    background-color: var(--type-psychic) !important;
+    color: white !important;
+  }
+  
+  .type-bug {
+    background-color: var(--type-bug) !important;
+    color: #212529 !important;
+  }
+  
+  .type-rock {
+    background-color: var(--type-rock) !important;
+    color: white !important;
+  }
+  
+  .type-ghost {
+    background-color: var(--type-ghost) !important;
+    color: white !important;
+  }
+  
+  .type-dark {
+    background-color: var(--type-dark) !important;
+    color: white !important;
+  }
+  
+  .type-dragon {
+    background-color: var(--type-dragon) !important;
+    color: white !important;
+  }
+  
+  .type-steel {
+    background-color: var(--type-steel) !important;
+    color: #212529 !important;
+  }
+  
+  .type-fairy {
+    background-color: var(--type-fairy) !important;
+    color: #212529 !important;
+  }
 }
