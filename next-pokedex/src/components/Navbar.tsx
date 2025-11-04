@@ -47,11 +47,6 @@ export default function Navbar() {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="/pokemon">
-            Pokémon
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
           <Link color="foreground" href="/types">
             Types
           </Link>
@@ -83,11 +78,6 @@ export default function Navbar() {
         <NavbarMenuItem>
           <Link className="w-full" href="/" size="lg">
             Home
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link className="w-full" href="/pokemon" size="lg">
-            Pokémon
           </Link>
         </NavbarMenuItem>
         <NavbarMenuItem>
