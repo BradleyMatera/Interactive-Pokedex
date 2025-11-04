@@ -85,7 +85,7 @@ export default function PokemonCard({ id, name, types, sprites, primarySpriteKey
   );
 
   return (
-    <Link href={`/pokemon/${name}`} passHref>
+  <Link href={`/pokemon/${name}/`} passHref>
       <Card
         isPressable
         className="grid-card rounded-2xl p-0 relative overflow-hidden text-left focus:ring-2 focus:ring-indigo-500 hover:shadow-lg transition-shadow duration-300 animate-fade-in"

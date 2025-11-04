@@ -15,7 +15,7 @@ export default function SearchPage() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      router.push(`/pokemon/${searchTerm.toLowerCase()}`);
+  router.push(`/pokemon/${searchTerm.toLowerCase()}/`);
     }
   };
 
@@ -52,7 +52,7 @@ export default function SearchPage() {
                 <Card 
                   key={pokemon.id} 
                   isPressable
-                  onPress={() => router.push(`/pokemon/${pokemon.name}`)}
+                  onPress={() => router.push(`/pokemon/${pokemon.name}/`)}
                   className="hover:shadow-lg transition-shadow"
                 >
                   <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
