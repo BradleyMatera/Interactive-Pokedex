@@ -1,11 +1,12 @@
 {
-"name": "next-pokedex",
+  "name": "next-pokedex",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "bun run next dev",
     "build": "bun run next build",
-    "build:pages": "bun run next build",
+    "build:pages": "bun run next build && bun run sync-docs",
+    "sync-docs": "bun scripts/sync-docs.ts",
     "start": "bun run next start",
     "lint": "bun run eslint"
   },
