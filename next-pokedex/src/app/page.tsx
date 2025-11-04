@@ -1,11 +1,11 @@
 // Main Pokédex landing page with hero section and Pokémon grid
 "use client";
-import { Chip, Input, Button, Divider, Card, CardBody, CardHeader } from "@nextui-org/react";
-import { useState, useMemo } from "react";
-import PokemonCard from "../components/PokemonCard";
-import { filterPokemon, type PokemonGridItem } from "../utils/fetchPokemon";
+import { Button, Divider, Card, CardBody } from "@nextui-org/react";
+import { useState, useCallback, useMemo } from "react";
+import { PokemonList } from "@/components/PokemonList";
 import { usePokemon } from "@/contexts/PokemonContext";
-import { SearchIcon } from "lucide-react";
+import SearchBar from "@/components/SearchBar";
+import { filterPokemon, type PokemonGridItem } from "@/utils/fetchPokemon";
 
 export default function HomePage() {
   // State for search term
@@ -17,6 +17,10 @@ export default function HomePage() {
   const filteredPokemons = useMemo(() => {
     return filterPokemon(pokemonList as PokemonGridItem[], search);
   }, [pokemonList, search]);
+
+  const handleSearch = (query: string) => {
+    setSearch(query);
+  };
 
   return (
     <main className="container mx-auto px-4 sm:px-6 pb-24">
@@ -31,20 +35,14 @@ export default function HomePage() {
         
         {/* Search Bar */}
         <div className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-4">
-          <Input
-            type="search"
-            placeholder="Search Pokémon or #"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            startContent={<SearchIcon className="text-default-400" />}
-            className="flex-1"
-          />
+          <SearchBar onSearch={handleSearch} />
           <Button 
             as="a" 
             href="/types" 
             color="secondary" 
-            variant="flat"
-            className="font-medium"
+            variant="shadow"
+            className="font-medium h-14"
+            radius="full"
           >
             Browse Types
           </Button>
@@ -86,28 +84,11 @@ export default function HomePage() {
           <p className="text-default-600">{filteredPokemons.length} Pokémon found</p>
         </div>
         
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <p>Loading Pokémon...</p>
-          </div>
-        ) : error ? (
-          <div className="flex justify-center items-center h-64">
-            <p className="text-danger">Error loading Pokémon: {error}</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" role="list">
-            {filteredPokemons.map((p) => (
-              <div key={p.id} role="listitem">
-                <PokemonCard
-                  name={p.name}
-                  image={p.image}
-                  types={p.types}
-                  number={p.id}
-                />
-              </div>
-            ))}
-          </div>
-        )}
+        <PokemonList 
+          pokemons={filteredPokemons} 
+          loading={loading} 
+          error={error} 
+        />
       </section>
     </main>
   );

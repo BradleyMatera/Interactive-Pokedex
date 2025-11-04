@@ -2,17 +2,10 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { fetchAllPokemon } from "@/utils/fetchPokemon";
-
-interface Pokemon {
-  id: number;
-  name: string;
-  types: string[];
-  // Add other properties as needed
-}
+import { fetchAllPokemon, type PokemonGridItem } from "@/utils/fetchPokemon";
 
 interface PokemonContextType {
-  pokemonList: Pokemon[];
+  pokemonList: PokemonGridItem[];
   loading: boolean;
   error: string | null;
 }
@@ -20,7 +13,7 @@ interface PokemonContextType {
 const PokemonContext = createContext<PokemonContextType | undefined>(undefined);
 
 export const PokemonProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
+  const [pokemonList, setPokemonList] = useState<PokemonGridItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

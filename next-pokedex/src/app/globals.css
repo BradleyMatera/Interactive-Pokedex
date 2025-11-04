@@ -18,23 +18,49 @@
   
   /* Pokemon type colors */
   --type-normal: #a8a878;
+  --type-normal50: #a8a87880;
   --type-fire: #f08030;
+  --type-fire50: #f0803080;
   --type-water: #6890f0;
+  --type-water50: #6890f080;
   --type-electric: #f8d030;
+  --type-electric50: #f8d03080;
   --type-grass: #78c850;
+  --type-grass50: #78c85080;
   --type-ice: #98d8d8;
+  --type-ice50: #98d8d880;
   --type-fighting: #c03028;
+  --type-fighting50: #c0302880;
   --type-poison: #a040a0;
+  --type-poison50: #a040a080;
   --type-ground: #e0c068;
+  --type-ground50: #e0c06880;
   --type-flying: #a890f0;
+  --type-flying50: #a890f080;
   --type-psychic: #f85888;
+  --type-psychic50: #f8588880;
   --type-bug: #a8b820;
+  --type-bug50: #a8b82080;
   --type-rock: #b8a038;
+  --type-rock50: #b8a03880;
   --type-ghost: #705898;
+  --type-ghost50: #70589880;
   --type-dark: #705848;
+  --type-dark50: #70584880;
   --type-dragon: #7038f8;
+  --type-dragon50: #7038f880;
   --type-steel: #b8b8d0;
+  --type-steel50: #b8b8d080;
   --type-fairy: #ee99ac;
+  --type-fairy50: #ee99ac80;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #e3350d, #ff6b6b);
+  --gradient-secondary: linear-gradient(135deg, #3b4cca, #5c6bc0);
+  --gradient-fire: linear-gradient(135deg, #f08030, #ff9900);
+  --gradient-water: linear-gradient(135deg, #6890f0, #5c6bc0);
+  --gradient-electric: linear-gradient(135deg, #f8d030, #ffd166);
+  --gradient-grass: linear-gradient(135deg, #78c850, #62a840);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -85,6 +111,44 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+  /* Gradient utilities */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .bg-gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+  
+  .bg-gradient-fire {
+    background: var(--gradient-fire);
+  }
+  
+  .bg-gradient-water {
+    background: var(--gradient-water);
+  }
+  
+  .bg-gradient-electric {
+    background: var(--gradient-electric);
+  }
+  
+  .bg-gradient-grass {
+    background: var(--gradient-grass);
+  }
+  
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulseSlow 2s infinite;
   }
   
   /* Pokemon type chip styles */
@@ -183,5 +247,38 @@ body {
   .type-fairy {
     background-color: var(--type-fairy) !important;
     color: #212529 !important;
+  }
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseSlow {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
   }
 }

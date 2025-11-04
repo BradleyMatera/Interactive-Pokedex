@@ -18,7 +18,46 @@ export default function Navbar() {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
-  if (!mounted) return null;
+  // Render a placeholder on the server to prevent hydration errors
+  if (!mounted) {
+    return (
+      <NextUINavbar 
+        isBordered 
+        className="bg-background/80 backdrop-blur-md sticky top-0 z-50"
+      >
+        <NavbarContent className="sm:hidden" justify="start">
+          <NavbarMenuToggle aria-label="Loading menu" />
+        </NavbarContent>
+
+        <NavbarContent className="sm:hidden pr-3" justify="center">
+          <NavbarBrand>
+            <p className="font-bold text-inherit">Pokédex</p>
+          </NavbarBrand>
+        </NavbarContent>
+
+        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+          <NavbarBrand>
+            <p className="font-bold text-inherit">Pokédex</p>
+          </NavbarBrand>
+          <NavbarItem>
+            <div className="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          </NavbarItem>
+          <NavbarItem>
+            <div className="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          </NavbarItem>
+        </NavbarContent>
+
+        <NavbarContent justify="end">
+          <NavbarItem className="hidden lg:flex">
+            <div className="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          </NavbarItem>
+          <NavbarItem>
+            <div className="h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          </NavbarItem>
+        </NavbarContent>
+      </NextUINavbar>
+    );
+  }
 
   return (
     <NextUINavbar 
