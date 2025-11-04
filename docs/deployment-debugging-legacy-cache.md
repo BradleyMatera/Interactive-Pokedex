@@ -43,6 +43,7 @@ The production site continued surfacing UI components from the pre-Next.js "old"
 
 - Ran `bun deploy`, which pushed commit `470acf1` and triggered the Pages workflow.
 - The workflow artifact inspection confirmed only the new Next.js bundle was uploaded.
+- Subsequent fixes added trailing slashes to every internal Pokémon link so SPA navigation always targets the exported directories. This prevented follow-up reports of blank pages after the service-worker purge.
 
 ### 4. Verify Production HTML
 
@@ -71,6 +72,7 @@ The manual unregister step was the silver bullet: as soon as the user removed th
 2. **Inspect workflow artifacts** any time production and local builds diverge. It quickly tells whether the CI build is correct.
 3. **Provide a one-command deploy** (`bun deploy`) to ensure consistent build + push flow and reduce human error.
 4. **Document cache-clearing steps** for QA and stakeholders. Service worker artifacts are notoriously persistent.
+5. **Align SPA routing with static exports.** App Router links must include trailing slashes when deploying to GitHub Pages. Testing client navigation against the exported `out/` directory caught the final regression.
 
 ## Next Steps / Follow-ups
 

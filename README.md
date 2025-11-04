@@ -9,6 +9,18 @@ Next.js 16 + Bun powered Pokédex experience that ships as a static export for G
 - Fully responsive layout using Tailwind CSS v4 and NextUI
 - Static export via `next export` so GitHub Pages can host the site without a server
 
+## How It Works
+
+- **Data providers.** `PokemonProvider` and `ItemProvider` bootstrap the app by fetching the first‑generation roster and the curated item dex on the client. They expose memoised lists and loading state via the `usePokemon` and `useItems` hooks so cards, search, and the item directory all stay in sync.
+- **Static detail pages.** `src/app/pokemon/[name]/page.tsx` enumerates every supported Pokémon through `generateStaticParams`. During `next build` each entry calls `fetchPokemonDetails`, assembling evolutions, items, moves, and location metadata from the PokéAPI and baking the result into the exported HTML.
+- **Hybrid rendering.** List and search views are client components (for interactivity and filtering), while the heavy data aggregation happens ahead of time. This keeps runtime requests light—visiting a Pokémon detail page is a purely static experience backed by prerendered JSON streams.
+- **UI composition.** NextUI widgets provide accessible building blocks (Tabs, Dropdowns, Cards), Tailwind supplies utility classes, and shared helpers (for sprite galleries, typographic gradients, etc.) live in `src/components/`.
+- **Routing guarantees.** Every internal link now includes a trailing slash so client navigation aligns with the exported directory structure (`/pokemon/<name>/`). Paired with the runtime `LegacyServiceWorkerCleanup`, this ensures the GitHub Pages build serves the latest bundle without white screens or cached legacy assets.
+
+## Production Status
+
+- The GitHub Pages deployment is now fully navigable again; internal links and search results include trailing slashes so client-side routing matches the exported file structure.
+
 ## Getting Started
 
 ```bash
