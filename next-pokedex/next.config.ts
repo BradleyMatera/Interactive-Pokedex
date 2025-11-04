@@ -8,7 +8,7 @@ const nextConfig = {
     unoptimized: true
   },
   // Set basePath if deploying to a subfolder (e.g., /repo-name)
-  // basePath: "/Interactive-Pokedex", // Commented out for local development
+  basePath: "/Interactive-Pokedex", // For GitHub Pages deployment
 };
 
 export default nextConfig;
