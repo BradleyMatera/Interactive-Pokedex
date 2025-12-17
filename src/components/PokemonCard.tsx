@@ -1,7 +1,6 @@
 // Reusable Pokémon Card component for grid/list views
 "use client";
 import { Card } from "@nextui-org/react";
-import Link from "next/link";
 import type { MouseEvent } from "react";
 import { useCallback, useMemo, useState } from "react";
 import Image from "next/image";
@@ -19,6 +18,8 @@ export type PokemonCardProps = {
 };
 
 export default function PokemonCard({ id, name, types, sprites, primarySpriteKey, dexNumber }: PokemonCardProps) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const href = `${basePath}/pokemon/${name}/`;
   const { typeColors } = useTypeColors();
   const supportedTypes = useMemo(() => new Set(Object.keys(typeColors)), [typeColors]);
   const primaryType = useMemo(() => {
@@ -85,7 +86,7 @@ export default function PokemonCard({ id, name, types, sprites, primarySpriteKey
   );
 
   return (
-  <Link href={`/pokemon/${name}/`} passHref>
+    <a href={href} className="block no-underline">
       <Card
         isPressable
         className="grid-card rounded-2xl p-0 relative overflow-hidden text-left focus:ring-2 focus:ring-indigo-500 hover:shadow-lg transition-shadow duration-300 animate-fade-in"
@@ -95,7 +96,7 @@ export default function PokemonCard({ id, name, types, sprites, primarySpriteKey
       >
         <div className={`p-4 rounded-t-lg ${gradientClass}`}>
           <div className="pk-number absolute right-3 top-2 text-xs font-bold text-white">#{dexNumber}</div>
-          <div className="mb-12"> {/* Added margin to create space for image */}
+          <div className="mb-12">
             <h3 className="capitalize font-extrabold text-lg mb-2 text-white">{name}</h3>
             <div className="flex gap-1 flex-wrap">
               {types.map((type) => (
@@ -134,6 +135,6 @@ export default function PokemonCard({ id, name, types, sprites, primarySpriteKey
           </div>
         </div>
       </Card>
-    </Link>
+    </a>
   );
 }

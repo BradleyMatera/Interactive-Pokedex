@@ -4,19 +4,18 @@
 import React, { useState } from "react";
 import { Input, Button, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { SearchIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { usePokemon } from "@/contexts/PokemonContext";
 
 export default function SearchPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const router = useRouter();
   const { pokemonList } = usePokemon();
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchTerm.trim()) {
-  router.push(`/pokemon/${searchTerm.toLowerCase()}/`);
-    }
+    const trimmed = searchTerm.trim().toLowerCase();
+    if (!trimmed) return;
+    window.location.href = `${basePath}/pokemon/${trimmed}/`;
   };
 
   const filteredPokemon = pokemonList.filter(pokemon => 
@@ -49,10 +48,11 @@ export default function SearchPage() {
           {filteredPokemon.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {filteredPokemon.map((pokemon) => (
-                <Card 
-                  key={pokemon.id} 
+                <Card
+                  key={pokemon.id}
                   isPressable
-                  onPress={() => router.push(`/pokemon/${pokemon.name}/`)}
+                  as="a"
+                  href={`${basePath}/pokemon/${pokemon.name}/`}
                   className="hover:shadow-lg transition-shadow"
                 >
                   <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">

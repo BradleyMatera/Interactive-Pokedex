@@ -5,6 +5,9 @@ const isProd = process.env.NODE_ENV === "production";
 const nextConfig = {
   output: "export",
   trailingSlash: true,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isProd ? "/Interactive-Pokedex" : "",
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
