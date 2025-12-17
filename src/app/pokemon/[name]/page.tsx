@@ -65,8 +65,15 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function PokemonPage({ params }: { params: { name: string } }) {
-  const { name } = params;
+type PokemonRouteParams = { name: string };
+
+export default async function PokemonPage({ params }: { params: PokemonRouteParams | Promise<PokemonRouteParams> }) {
+  const resolved = await Promise.resolve(params);
+  const name = resolved?.name;
+  if (!name) {
+    return <div className="container mx-auto px-4 py-8">Failed to load Pokémon data</div>;
+  }
+
   const pokemon = await fetchPokemonDetails(name);
   if (!pokemon) {
     return <div className="container mx-auto px-4 py-8">Failed to load Pokémon data</div>;
