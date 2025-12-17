@@ -65,9 +65,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function PokemonPage({ params }: { params: Promise<{ name: string }> }) {
-  // In Next.js App Router, params is a Promise that needs to be awaited
-  const { name } = await params;
+export default async function PokemonPage({ params }: { params: { name: string } }) {
+  const { name } = params;
   const pokemon = await fetchPokemonDetails(name);
   if (!pokemon) {
     return <div className="container mx-auto px-4 py-8">Failed to load Pokémon data</div>;
