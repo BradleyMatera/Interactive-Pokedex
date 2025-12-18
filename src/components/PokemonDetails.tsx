@@ -300,6 +300,10 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
           </div>
         </div>
 
+        <div className="px-6 py-3 bg-white dark:bg-gray-900 text-sm text-gray-700 dark:text-gray-200">
+          This is an unofficial, fan-made project and is not affiliated with, endorsed by, or sponsored by Nintendo, Game Freak, or The Pokémon Company. Pokémon and related trademarks are the property of their respective owners.
+        </div>
+
         <div className="p-6 bg-white dark:bg-gray-800 animate-fade-in">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:scale-105 transition-transform hover:-translate-y-1 hover:shadow-lg">
