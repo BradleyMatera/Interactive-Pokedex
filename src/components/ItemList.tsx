@@ -69,8 +69,8 @@ export function ItemList({ items, loading, error }: ItemListProps) {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
+    <div className="container mx-auto px-4 py-6 md:py-8">
+      <div className="mb-6 md:mb-8">
         <Input
           isClearable
           radius="lg"

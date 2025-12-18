@@ -119,14 +119,133 @@
   }
 }
 
+.dark {
+  --background: #121212;
+  --foreground: #f8f9fa;
+  --primary: #ff6b6b;
+  --primary-hover: #ff5252;
+  --secondary: #5c6bc0;
+  --accent: #ffd166;
+  --card-bg: #1e1e1e;
+  --card-border: #343a40;
+  --text-muted: #adb5bd;
+  --success: #4caf50;
+  --warning: #ffc107;
+  --danger: #f44336;
+  --info: #2196f3;
+  color-scheme: dark;
+
+  /* Pokemon type colors for dark mode */
+  --type-normal: #8a8a62;
+  --type-normal50: #8a8a6280;
+  --type-fire: #d8702a;
+  --type-fire50: #d8702a80;
+  --type-water: #5a7ad8;
+  --type-water50: #5a7ad880;
+  --type-electric: #e0b82a;
+  --type-electric50: #e0b82a80;
+  --type-grass: #62a840;
+  --type-grass50: #62a84080;
+  --type-ice: #7abdbd;
+  --type-ice50: #7abdbd80;
+  --type-fighting: #a82a24;
+  --type-fighting50: #a82a2480;
+  --type-poison: #8a368a;
+  --type-poison50: #8a368a80;
+  --type-ground: #c8a85a;
+  --type-ground50: #c8a85a80;
+  --type-flying: #8a7ad8;
+  --type-flying50: #8a7ad880;
+  --type-psychic: #d84a70;
+  --type-psychic50: #d84a7080;
+  --type-bug: #8a9a1a;
+  --type-bug50: #8a9a1a80;
+  --type-rock: #9a862a;
+  --type-rock50: #9a862a80;
+  --type-ghost: #5a4a7a;
+  --type-ghost50: #5a4a7a80;
+  --type-dark: #5a4a3a;
+  --type-dark50: #5a4a3a80;
+  --type-dragon: #5a2ad8;
+  --type-dragon50: #5a2ad880;
+  --type-steel: #9a9ab0;
+  --type-steel50: #9a9ab080;
+  --type-fairy: #d87a8a;
+  --type-fairy50: #d87a8a80;
+}
+
+.light {
+  color-scheme: light;
+  --background: #f8f9fa;
+  --foreground: #212529;
+  --primary: #e3350d;
+  --primary-hover: #c42b1c;
+  --secondary: #3b4cca;
+  --accent: #ff9900;
+  --card-bg: #ffffff;
+  --card-border: #e9ecef;
+  --text-muted: #6c757d;
+  --success: #28a745;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --info: #17a2b8;
+  /* Pokemon type colors */
+  --type-normal: #a8a878;
+  --type-normal50: #a8a87880;
+  --type-fire: #f08030;
+  --type-fire50: #f0803080;
+  --type-water: #6890f0;
+  --type-water50: #6890f080;
+  --type-electric: #f8d030;
+  --type-electric50: #f8d03080;
+  --type-grass: #78c850;
+  --type-grass50: #78c85080;
+  --type-ice: #98d8d8;
+  --type-ice50: #98d8d880;
+  --type-fighting: #c03028;
+  --type-fighting50: #c0302880;
+  --type-poison: #a040a0;
+  --type-poison50: #a040a080;
+  --type-ground: #e0c068;
+  --type-ground50: #e0c06880;
+  --type-flying: #a890f0;
+  --type-flying50: #a890f080;
+  --type-psychic: #f85888;
+  --type-psychic50: #f8588880;
+  --type-bug: #a8b820;
+  --type-bug50: #a8b82080;
+  --type-rock: #b8a038;
+  --type-rock50: #b8a03880;
+  --type-ghost: #705898;
+  --type-ghost50: #70589880;
+  --type-dark: #705848;
+  --type-dark50: #70584880;
+  --type-dragon: #7038f8;
+  --type-dragon50: #7038f880;
+  --type-steel: #b8b8d0;
+  --type-steel50: #b8b8d080;
+  --type-fairy: #ee99ac;
+  --type-fairy50: #ee99ac80;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   transition: background-color 0.3s, color 0.3s;
+  min-height: 100dvh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 @layer utilities {
+  .scrollbar-hide {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Gradient utilities */
   .bg-gradient-primary {
     background: var(--gradient-primary);

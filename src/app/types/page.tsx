@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Button, Link } from "@nextui-org/react";
 
 // Pokemon types data
 const pokemonTypes = [
@@ -26,11 +26,24 @@ const pokemonTypes = [
 
 export default function TypesPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-6 md:py-8">
       <h1 className="text-3xl font-bold mb-6 text-center">Pokemon Types</h1>
       <p className="text-center mb-8 text-default-600">
         Discover the 18 different types of Pokemon and their unique characteristics.
       </p>
+
+      <div className="flex justify-center mb-6">
+        <Button
+          as={Link}
+          href="/"
+          variant="flat"
+          color="default"
+          className="min-h-12 w-full max-w-xs font-medium"
+          radius="full"
+        >
+          ← Back to Pokédex
+        </Button>
+      </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {pokemonTypes.map((type) => (

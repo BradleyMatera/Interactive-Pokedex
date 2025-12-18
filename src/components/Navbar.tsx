@@ -1,18 +1,14 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import {
-  Button,
   Navbar as NextUINavbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
   Link,
-  Switch,
+  Button,
 } from "@nextui-org/react";
 import { SunIcon, MoonIcon } from "lucide-react";
 import NextLink from "next/link";
@@ -26,9 +22,9 @@ function useIsClient() {
 }
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const isClient = useIsClient();
+  const isDark = theme === "dark";
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -37,15 +33,8 @@ export default function Navbar() {
   // Render a placeholder on the server to prevent hydration errors
   if (!isClient) {
     return (
-      <NextUINavbar 
-        isBordered 
-        className="bg-background/80 backdrop-blur-md sticky top-0 z-50"
-      >
-        <NavbarContent className="sm:hidden" justify="start">
-          <NavbarMenuToggle aria-label="Loading menu" />
-        </NavbarContent>
-
-        <NavbarContent className="sm:hidden pr-3" justify="center">
+      <NextUINavbar isBordered className="bg-background/80 backdrop-blur-md sticky top-0 z-50">
+        <NavbarContent className="sm:hidden" justify="center">
           <NavbarBrand>
             <p className="font-bold text-inherit">Pokédex</p>
           </NavbarBrand>
@@ -64,9 +53,6 @@ export default function Navbar() {
         </NavbarContent>
 
         <NavbarContent justify="end">
-          <NavbarItem className="hidden lg:flex">
-            <div className="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-          </NavbarItem>
           <NavbarItem>
             <div className="h-10 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
           </NavbarItem>
@@ -76,16 +62,10 @@ export default function Navbar() {
   }
 
   return (
-    <NextUINavbar 
-      isBordered 
-      isMenuOpen={isMenuOpen} 
-      onMenuOpenChange={setIsMenuOpen}
+    <NextUINavbar
+      isBordered
       className="bg-background/80 backdrop-blur-md sticky top-0 z-50"
     >
-      <NavbarContent className="sm:hidden" justify="start">
-        <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
-      </NavbarContent>
-
       <NavbarContent className="sm:hidden pr-3" justify="center">
         <NavbarBrand>
           <p className="font-bold text-inherit">Pokédex</p>
@@ -109,18 +89,16 @@ export default function Navbar() {
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Switch
-            isSelected={theme === "dark"}
-            onValueChange={toggleTheme}
-            thumbIcon={({ isSelected, className }) =>
-              isSelected ? (
-                <MoonIcon className={className} />
-              ) : (
-                <SunIcon className={className} />
-              )
-            }
-          />
+        <NavbarItem>
+          <Button
+            isIconOnly
+            variant="light"
+            aria-label="Toggle theme"
+            onPress={toggleTheme}
+            className="min-w-10"
+          >
+            {isDark ? <MoonIcon className="h-5 w-5" /> : <SunIcon className="h-5 w-5" />}
+          </Button>
         </NavbarItem>
         <NavbarItem>
           <Button as={NextLink} color="primary" href="/search" variant="flat">
@@ -128,35 +106,6 @@ export default function Navbar() {
           </Button>
         </NavbarItem>
       </NavbarContent>
-
-      <NavbarMenu>
-        <NavbarMenuItem>
-          <Link as={NextLink} className="w-full" href="/" size="lg">
-            Home
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link as={NextLink} className="w-full" href="/types" size="lg">
-            Types
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <div className="flex items-center justify-between w-full py-2">
-            <span>Dark Mode</span>
-            <Switch
-              isSelected={theme === "dark"}
-              onValueChange={toggleTheme}
-              thumbIcon={({ isSelected, className }) =>
-                isSelected ? (
-                  <MoonIcon className={className} />
-                ) : (
-                  <SunIcon className={className} />
-                )
-              }
-            />
-          </div>
-        </NavbarMenuItem>
-      </NavbarMenu>
     </NextUINavbar>
   );
 }

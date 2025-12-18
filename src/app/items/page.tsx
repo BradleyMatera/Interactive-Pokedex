@@ -26,13 +26,23 @@ export default function ItemsPage() {
 
   return (
     <main className="container mx-auto px-4 sm:px-6 pb-24">
-      <section className="relative overflow-hidden rounded-3xl border border-default-200 bg-white/80 px-6 py-10 text-center shadow-lg dark:bg-black/60 sm:px-10 md:py-12">
+      <section className="relative overflow-hidden rounded-3xl border border-default-200 bg-white/80 px-4 py-8 text-center shadow-lg dark:bg-black/60 sm:px-8 md:py-12">
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 md:gap-5">
           <h1 className="text-4xl font-bold text-foreground md:text-5xl">Item Dex</h1>
           <p className="text-base text-default-600 md:text-lg">
             Track every Poké Ball, held item, and curious trinket. Learn what each item does, how it is used, and which Pokémon can benefit from it.
           </p>
           <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <Button
+              as={NextLink}
+              href="/"
+              variant="flat"
+              color="default"
+              className="min-h-12 w-full font-medium sm:w-auto"
+              radius="full"
+            >
+              ← Back to Pokédex
+            </Button>
             <Button
               as={NextLink}
               href="/"

@@ -14,7 +14,6 @@ import {
   Chip,
 } from "@nextui-org/react";
 import type { Selection } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   PokemonDetails as PokemonDetailsType,
@@ -38,7 +37,6 @@ const ITEM_SPRITES = {
 
 
 export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState("desc");
   const { typeColors } = useTypeColors();
   const supportedTypes = useMemo(() => new Set(Object.keys(typeColors)), [typeColors]);
@@ -216,7 +214,8 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
   return (
     <div>
       <Button
-        onClick={() => router.back()}
+        as="a"
+        href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/`}
         variant="light"
         className="mb-4 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors animate-fade-in"
       >
@@ -224,7 +223,7 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
       </Button>
 
       <Card className="mb-8 overflow-hidden shadow-2xl hover:shadow-2xl transition-shadow duration-300">
-        <div className={`p-8 rounded-t-lg ${gradientClass}`}>
+        <div className={`p-8 rounded-t-lg ${gradientClass} text-white`}>
           <div className="flex flex-col md:flex-row items-center animate-fade-in-up">
             <div className="md:w-1/2 flex justify-center mb-6 md:mb-0">
               <div className="relative">
@@ -232,16 +231,17 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
                 <Image
                   src={activeSprite.url}
                   alt={`${pokemon.name} ${activeSprite.label}`}
-                  width={300}
-                  height={300}
-                  className="relative z-10 h-[300px] w-[300px] object-contain animate-fade-in"
+                  width={320}
+                  height={320}
+                  sizes="(max-width: 640px) 80vw, 320px"
+                  className="relative z-10 w-full max-w-[260px] sm:max-w-[320px] h-auto aspect-square object-contain animate-fade-in"
                   priority
                   onError={handleSpriteError}
                 />
               </div>
             </div>
             <div className="md:w-1/2 text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl font-bold capitalize mb-4 animate-fade-in">
+              <h1 className="text-4xl md:text-5xl font-bold capitalize mb-4 animate-fade-in text-white">
                 {pokemon.name}
               </h1>
               <div className="flex justify-center md:justify-start gap-2 my-4 flex-wrap">
@@ -249,11 +249,11 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
                   <TypeBadge key={type} type={type} />
                 ))}
               </div>
-              <p className="mt-4 text-2xl font-mono animate-fade-in">
+              <p className="mt-4 text-2xl font-mono animate-fade-in text-white">
                 #{pokemon.id.toString().padStart(3, "0")}
               </p>
               <div className="mt-4 flex flex-col items-center md:items-start gap-2">
-                <span className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                <span className="text-xs uppercase tracking-wide text-white/80">
                   Sprite Style
                 </span>
                 {spriteKeys.length > 1 ? (
@@ -268,24 +268,30 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
                         {activeSprite.label}
                       </Button>
                     </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Sprite styles"
-                      selectionMode="single"
-                      disallowEmptySelection
-                      selectedKeys={new Set([
-                        spriteKeys.includes(activeSpriteKey) ? activeSpriteKey : spriteKeys[0],
-                      ])}
-                      onSelectionChange={handleSpriteSelection}
-                    >
-                      {visibleSprites.map((sprite) => (
-                        <DropdownItem key={sprite.key} value={sprite.key} aria-label={sprite.label}>
-                          {sprite.label}
-                        </DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </Dropdown>
+                  <DropdownMenu
+                    aria-label="Sprite styles"
+                    selectionMode="single"
+                    disallowEmptySelection
+                    selectedKeys={new Set([
+                      spriteKeys.includes(activeSpriteKey) ? activeSpriteKey : spriteKeys[0],
+                    ])}
+                    onSelectionChange={handleSpriteSelection}
+                    className="text-gray-900 dark:text-white"
+                  >
+                    {visibleSprites.map((sprite) => (
+                      <DropdownItem
+                        key={sprite.key}
+                        value={sprite.key}
+                        aria-label={sprite.label}
+                        className="text-gray-900 dark:text-white"
+                      >
+                        {sprite.label}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Dropdown>
                 ) : (
-                  <span className="text-sm font-semibold capitalize text-gray-900 dark:text-gray-200">
+                  <span className="text-sm font-semibold capitalize text-white">
                     {activeSprite.label}
                   </span>
                 )}
@@ -297,30 +303,30 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
         <div className="p-6 bg-white dark:bg-gray-800 animate-fade-in">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:scale-105 transition-transform hover:-translate-y-1 hover:shadow-lg">
-              <p className="text-sm text-gray-500 dark:text-gray-300">Weight</p>
-              <p className="text-lg font-semibold">{(pokemon.weight / 10).toFixed(1)} kg</p>
+              <p className="text-sm text-gray-600 dark:text-gray-100">Weight</p>
+              <p className="text-lg font-semibold text-gray-900 dark:text-white">{(pokemon.weight / 10).toFixed(1)} kg</p>
             </div>
             <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:scale-105 transition-transform hover:-translate-y-1 hover:shadow-lg">
-              <p className="text-sm text-gray-500 dark:text-gray-300">Height</p>
-              <p className="text-lg font-semibold">{(pokemon.height / 10).toFixed(1)} m</p>
+              <p className="text-sm text-gray-600 dark:text-gray-100">Height</p>
+              <p className="text-lg font-semibold text-gray-900 dark:text-white">{(pokemon.height / 10).toFixed(1)} m</p>
             </div>
             <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg md:col-span-2 hover:scale-105 transition-transform hover:-translate-y-1 hover:shadow-lg">
-              <p className="text-sm text-gray-500 dark:text-gray-300">Abilities</p>
-              <p className="text-lg font-semibold capitalize">
+              <p className="text-sm text-gray-600 dark:text-gray-100">Abilities</p>
+              <p className="text-lg font-semibold capitalize text-gray-900 dark:text-white">
                 {pokemon.abilities.join(", ")}
               </p>
             </div>
           </div>
 
           <div className="mb-6">
-            <h3 className="text-xl font-bold mb-4">Base Stats</h3>
+            <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Base Stats</h3>
             {pokemon.stats.map((stat) => (
               <div key={stat.name} className="mb-3 animate-fade-in-up">
                 <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium capitalize">
+                  <span className="text-sm font-medium capitalize text-gray-800 dark:text-gray-50">
                     {stat.name.replace("special-", "S-")}
                   </span>
-                  <span className="text-sm font-medium">{stat.value}</span>
+                  <span className="text-sm font-medium text-gray-900 dark:text-white">{stat.value}</span>
                 </div>
                 <progress
                   className={`stat-progress ${progressClass}`}
@@ -359,7 +365,7 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
                         size="sm"
                         variant={isActive ? "solid" : "flat"}
                         color={isActive ? "primary" : "default"}
-                        className="flex items-center gap-2 rounded-xl px-3 py-2"
+                        className="flex items-center gap-2 rounded-xl px-3 py-2 text-gray-900 dark:text-white"
                         onPress={() => setActiveSpriteKey(sprite.key)}
                       >
                         <Image
@@ -383,7 +389,7 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
           </Card>
         </Tab>
         <Tab key="evo" title="Evolution">
-          <Card className="p-6 bg-white dark:bg-gray-800 animate-fade-in shadow-lg hover:shadow-xl transition-shadow">
+          <Card className="p-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 animate-fade-in shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex flex-col items-center gap-6 w-full">
               {evolutionStages.length > 0 ? (
                 evolutionStages.map((group, groupIndex) => (
@@ -430,7 +436,7 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
                             </div>
                             <span className="capitalize mt-3 font-semibold text-lg text-center">{evolution.name}</span>
                             {evolution.from && (
-                              <span className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                              <span className="text-xs uppercase tracking-wide text-gray-600 dark:text-gray-300">
                                 From {formatLabel(evolution.from)}
                               </span>
                             )}
@@ -440,16 +446,16 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
                                   const isActive = sprite.key === activeKey;
                                   return (
                                     <Button
-                                      key={`${evolution.id}-${sprite.key}`}
-                                      size="sm"
-                                      variant={isActive ? "solid" : "flat"}
-                                      color={isActive ? "primary" : "default"}
-                                      className="flex items-center gap-2 rounded-xl px-2 py-1"
-                                      onPress={() => setEvolutionActiveSprite(evolution.id, sprite.key)}
-                                    >
-                                      <Image
-                                        src={sprite.url}
-                                        alt={sprite.label}
+                                    key={`${evolution.id}-${sprite.key}`}
+                                    size="sm"
+                                    variant={isActive ? "solid" : "flat"}
+                                    color={isActive ? "primary" : "default"}
+                                    className="flex items-center gap-2 rounded-xl px-2 py-1 text-gray-900 dark:text-white"
+                                    onPress={() => setEvolutionActiveSprite(evolution.id, sprite.key)}
+                                  >
+                                    <Image
+                                      src={sprite.url}
+                                      alt={sprite.label}
                                         width={32}
                                         height={32}
                                         className="h-8 w-8 object-contain"
@@ -471,7 +477,7 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
                                     key={`${evolution.id}-req-${reqIndex}`}
                                     size="sm"
                                     variant="flat"
-                                    className="bg-white/70 dark:bg-gray-900/40 text-xs font-semibold"
+                                    className="bg-white/80 dark:bg-gray-700/80 text-xs font-semibold text-gray-900 dark:text-white"
                                   >
                                     {requirement}
                                   </Chip>
@@ -605,14 +611,14 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
           </Card>
         </Tab>
         <Tab key="locations" title="Locations">
-          <Card className="p-6 bg-white dark:bg-gray-800 animate-fade-in shadow-lg hover:shadow-xl transition-shadow">
-            <h3 className="text-xl font-bold mb-4">Locations</h3>
+          <Card className="p-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 animate-fade-in shadow-lg hover:shadow-xl transition-shadow">
+            <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Locations</h3>
             {locationEntries.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {locationEntries.map((location) => (
                   <div
                     key={location.key}
-                    className="relative flex items-center gap-4 rounded-xl bg-gray-50/80 dark:bg-gray-800/80 p-4 hover:-translate-y-1 hover:shadow-lg transition-all"
+                    className="relative flex items-center gap-4 rounded-xl bg-gray-50/80 dark:bg-gray-700/80 p-4 hover:-translate-y-1 hover:shadow-lg transition-all"
                   >
                     <div className="relative h-12 w-12 shrink-0">
                       <div className="absolute inset-0 rounded-full bg-white dark:bg-gray-900 blur-md opacity-60" />
@@ -629,8 +635,8 @@ export default function PokemonDetails({ pokemon }: PokemonDetailsProps) {
                       />
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-bold text-lg">{location.name}</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{location.region}</p>
+                      <h4 className="font-bold text-lg text-gray-900 dark:text-white">{location.name}</h4>
+                      <p className="text-sm text-gray-700 dark:text-gray-200 mt-1">{location.region}</p>
                     </div>
                     <div className="hidden md:block opacity-40">
                       <Image

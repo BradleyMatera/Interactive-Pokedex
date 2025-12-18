@@ -86,55 +86,54 @@ export default function PokemonCard({ id, name, types, sprites, primarySpriteKey
   );
 
   return (
-    <a href={href} className="block no-underline">
-      <Card
-        isPressable
-        className="grid-card rounded-2xl p-0 relative overflow-hidden text-left focus:ring-2 focus:ring-indigo-500 hover:shadow-lg transition-shadow duration-300 animate-fade-in"
-        role="listitem"
-        aria-label={name}
-        as="div"
-      >
-        <div className={`p-4 rounded-t-lg ${gradientClass}`}>
-          <div className="pk-number absolute right-3 top-2 text-xs font-bold text-white">#{dexNumber}</div>
-          <div className="mb-12">
-            <h3 className="capitalize font-extrabold text-lg mb-2 text-white">{name}</h3>
-            <div className="flex gap-1 flex-wrap">
-              {types.map((type) => (
-                <TypeBadge key={type} type={type} />
-              ))}
-            </div>
+    <Card
+      as="a"
+      href={href}
+      isPressable
+      className="grid-card rounded-2xl p-0 relative overflow-hidden text-left focus:ring-2 focus:ring-indigo-500 hover:shadow-lg transition-shadow duration-300 animate-fade-in"
+      role="listitem"
+      aria-label={name}
+    >
+      <div className={`p-4 rounded-t-lg ${gradientClass}`}>
+        <div className="pk-number absolute right-3 top-2 text-xs font-bold text-white">#{dexNumber}</div>
+        <div className="mb-12">
+          <h3 className="capitalize font-extrabold text-lg mb-2 text-white">{name}</h3>
+          <div className="flex gap-1 flex-wrap">
+            {types.map((type) => (
+              <TypeBadge key={type} type={type} />
+            ))}
           </div>
         </div>
-        <div className="flex items-end justify-between p-4 pt-0">
-          <div className="flex flex-col">
-            <span className="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400">Sprite</span>
-            <span className="text-sm font-semibold capitalize text-gray-900 dark:text-gray-100">
-              {activeSprite.label}
-            </span>
-          </div>
-          <div className="relative">
-            <Image
-              src={activeSprite.url}
-              alt={`${name} ${activeSprite.label}`}
-              width={80}
-              height={80}
-              className="thumb h-20 w-20 object-contain pointer-events-none"
-              onError={handleImageError}
-              loading="lazy"
-            />
-            {visibleKeys.length > 1 && (
-              <button
-                type="button"
-                onClick={handleToggleClick}
-                className="absolute -top-2 -right-2 rounded-full bg-white/80 px-2 py-1 text-[10px] font-semibold text-slate-700 shadow focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500"
-                aria-label="Show next sprite option"
-              >
-                Toggle
-              </button>
-            )}
-          </div>
+      </div>
+      <div className="flex items-end justify-between p-4 pt-0">
+        <div className="flex flex-col">
+          <span className="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400">Sprite</span>
+          <span className="text-sm font-semibold capitalize text-gray-900 dark:text-gray-100">
+            {activeSprite.label}
+          </span>
         </div>
-      </Card>
-    </a>
+        <div className="relative">
+          <Image
+            src={activeSprite.url}
+            alt={`${name} ${activeSprite.label}`}
+            width={80}
+            height={80}
+            className="thumb h-20 w-20 object-contain pointer-events-none"
+            onError={handleImageError}
+            loading="lazy"
+          />
+          {visibleKeys.length > 1 && (
+            <button
+              type="button"
+              onClick={handleToggleClick}
+              className="absolute -top-2 -right-2 rounded-full bg-white/80 px-2 py-1 text-[10px] font-semibold text-slate-700 shadow focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500"
+              aria-label="Show next sprite option"
+            >
+              Toggle
+            </button>
+          )}
+        </div>
+      </div>
+    </Card>
   );
 }

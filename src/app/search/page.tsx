@@ -28,15 +28,17 @@ export default function SearchPage() {
       <h1 className="text-3xl font-bold mb-6">Search Pokémon</h1>
       
       <form onSubmit={handleSearch} className="mb-8">
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 items-stretch">
           <Input
             placeholder="Search by name or type..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             startContent={<SearchIcon className="text-gray-400" />}
             className="flex-1"
+            aria-label="Search by name or type"
+            size="lg"
           />
-          <Button color="primary" type="submit">
+          <Button color="primary" type="submit" className="w-full sm:w-auto" size="lg">
             Search
           </Button>
         </div>
@@ -53,6 +55,7 @@ export default function SearchPage() {
                   isPressable
                   as="a"
                   href={`${basePath}/pokemon/${pokemon.name}/`}
+                  role="link"
                   className="hover:shadow-lg transition-shadow"
                 >
                   <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">

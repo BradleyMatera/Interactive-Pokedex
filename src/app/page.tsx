@@ -41,7 +41,7 @@ export default function HomePage() {
   return (
     <main className="container mx-auto px-4 sm:px-6 pb-24">
       {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-3xl border border-default-200 bg-white/80 px-6 py-10 text-center shadow-lg dark:bg-black/60 sm:px-10 md:py-12">
+      <section className="relative overflow-hidden rounded-3xl border border-default-200 bg-white/80 px-4 py-8 text-center shadow-lg dark:bg-black/60 sm:px-8 md:py-12">
         <div className="pointer-events-none absolute inset-0 -z-10">
           {HERO_BACKGROUNDS.map((src, index) => (
             <div
