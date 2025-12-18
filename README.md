@@ -1,64 +1,65 @@
 # Interactive Pokédex
 
-Next.js 16 + Bun powered Pokédex experience that ships as a static export for GitHub Pages at [`https://bradleymatera.github.io/Interactive-Pokedex/`](https://bradleymatera.github.io/Interactive-Pokedex/). The project now lives entirely at the repository root so local development and CI builds run from the same place.
+https://bradleymatera.github.io/Interactive-Pokedex/
 
-## Features
+## 1. Project Overview
 
-- Full Pokédex for the original 151 Pokémon with stats, abilities, moves, evolutions, locations, and TCG cards
-- Search and filtering with dark/light theme support
-- Fully responsive layout using Tailwind CSS v4 and NextUI
-- Static export via `next export` so GitHub Pages can host the site without a server
+Interactive Pokédex is a small Next.js 16 web app that statically publishes a Pokédex for the first 151 Pokémon. It is an educational, fan-made project that demonstrates static export to GitHub Pages, client-side search/filtering, and prerendered detail pages. Pokémon names, images, and data belong to their respective owners; this project is not affiliated with Nintendo, Game Freak, or The Pokémon Company.
 
-## How It Works
+## 2. Project Intent and Scope
 
-- **Data providers.** `PokemonProvider` and `ItemProvider` bootstrap the app by fetching the first‑generation roster and the curated item dex on the client. They expose memoised lists and loading state via the `usePokemon` and `useItems` hooks so cards, search, and the item directory all stay in sync.
-- **Static detail pages.** `src/app/pokemon/[name]/page.tsx` enumerates every supported Pokémon through `generateStaticParams`. During `next build` each entry calls `fetchPokemonDetails`, assembling evolutions, items, moves, and location metadata from the PokéAPI and baking the result into the exported HTML.
-- **Hybrid rendering.** List and search views are client components (for interactivity and filtering), while the heavy data aggregation happens ahead of time. This keeps runtime requests light—visiting a Pokémon detail page is a purely static experience backed by prerendered JSON streams.
-- **UI composition.** NextUI widgets provide accessible building blocks (Tabs, Dropdowns, Cards), Tailwind supplies utility classes, and shared helpers (for sprite galleries, typographic gradients, etc.) live in `src/components/`.
-- **Routing guarantees.** Every internal link now includes a trailing slash so client navigation aligns with the exported directory structure (`/pokemon/<name>/`). Paired with the runtime `LegacyServiceWorkerCleanup`, this ensures the GitHub Pages build serves the latest bundle without white screens or cached legacy assets.
+- Showcase how to combine Next.js App Router with static export (`output: "export"`) for GitHub Pages.
+- Practice working with client-side data providers for list/search views while prerendering heavy detail pages.
+- Keep scope to Generation 1 data: basic stats, moves (first 10), evolution chains, and a curated item list.
+- Stay fan-made and non-commercial.
 
-## Production Status
+## 3. How the Application Works
 
-- The GitHub Pages deployment is now fully navigable again; internal links and search results include trailing slashes so client-side routing matches the exported file structure.
+User perspective:
+1. Home page lists the 151 Pokémon with search and pagination. Cards link to `/pokemon/{name}/`.
+2. Search page filters the in-memory list and links directly to detail pages.
+3. Item Dex lists items with search/pagination.
+4. Detail pages show prerendered data (sprites, stats, moves, evolutions, and placeholder locations).
 
-## Getting Started
+System perspective:
+1. On the client, `PokemonProvider` and `ItemProvider` fetch the full Pokémon list and item list from PokéAPI when the app loads. These lists drive the home/search/item pages.
+2. At build time, `generateStaticParams` enumerates the 151 names. `fetchPokemonDetails` runs for each name to collect sprites, species info, moves (first 10), evolution chain, and item interactions. The results are serialized into the static HTML so detail pages load without runtime API calls.
+3. Routing uses trailing slashes to match the static export layout (`/pokemon/bulbasaur/` maps to `out/pokemon/bulbasaur/index.html`).
+4. The app renders client components for interactive areas (search, theme toggle, pagination) and server components for layouts/pages.
 
-```bash
-bun install
-bun run dev
-```
+## 4. Technical Architecture (routing, data flow, rendering)
 
-Open [http://localhost:3000](http://localhost:3000) after the dev server starts.
+- Routing: Next.js App Router in `src/app`. Static routes for home, search, items, types. Dynamic route for `/pokemon/[name]/` with `generateStaticParams`.
+- Data flow:
+  - Grid/search/item pages: client-side fetch via `PokemonProvider` and `ItemProvider` using `fetchAllPokemon` / `fetchAllItems`.
+  - Detail pages: build-time fetch via `fetchPokemonDetails` (sprites, species, evolutions, first 10 moves, basic item interactions, placeholder locations).
+- Rendering:
+  - Home/search/items/types: client components for interactivity, hydrated with provider data.
+  - Detail pages: prerendered HTML with serialized data; no runtime API calls needed on navigation.
+- Styling: Tailwind CSS v4 and NextUI components with a light/dark theme toggle.
+- Static export: `next.config.ts` sets `output: "export"`, `trailingSlash: true`, and `assetPrefix/basePath` for GitHub Pages.
 
-## Build & Deploy
+## 5. Deployment Model and Constraints
 
-```bash
-bun run build:pages
-```
+- Hosting: GitHub Pages at `/Interactive-Pokedex/`.
+- Build: `bun run build:pages` runs `next build` with static export and writes `out/.nojekyll`.
+- Deployment: GitHub Actions workflow publishes `out/` to Pages on pushes to `main` (or via manual dispatch). `bun deploy` wraps build + push.
+- Constraints: No server-side rendering at runtime; all routes must exist as static files. Links must include trailing slashes. Image optimization is disabled (`unoptimized: true`) and remote image hosts are whitelisted.
 
-`build:pages` runs `next build` (with `output: "export"`) and then touches `out/.nojekyll` so GitHub Pages serves the `_next/` assets correctly. Pushes to `main` trigger `.github/workflows/deploy.yml`, which builds the project inside GitHub Actions and publishes the contents of `out/` to GitHub Pages.
+## 6. Known Issues and Limitations
 
-### One-Command Deploy
+- Client-side fetching: Home/search/item views rely on client fetches to PokéAPI on first load; slow networks can delay initial data.
+- Move data: Only the first 10 moves are fetched per Pokémon.
+- Location data: Uses placeholder locations (not a live query).
+- Item interactions: Limited to held items and evolution item contexts; not a full item encyclopaedia.
+- Routing: Internal links use trailing slashes to match the export; avoid removing them.
+- Theme: Light/dark toggle switches CSS variables; if system overrides are forced, behavior depends on browser settings.
+- Not official: This is an unofficial, fan-made, non-commercial project.
 
-```bash
-bun deploy
-```
+## 7. Educational Value and Learning Goals
 
-`bun deploy` verifies the working tree is clean, ensures you are on `main`, builds the static export, and pushes commits to `origin/main` so the Pages workflow kicks off automatically.
-
-### Manual Deploy
-
-1. `bun run build:pages`
-2. (Optional) Inspect the generated `out/` directory (git ignored)
-3. Dispatch the “Deploy to GitHub Pages” workflow if you need to redeploy without a push
-
-## Repository Structure
-
-- `src/` – Next.js application code (App Router)
-- `public/` – Static assets served as-is
-- `scripts/` – Build helpers (currently `sync-docs.ts`)
-- `docs/` – Project documentation (deployment notes, architecture, etc.)
-
-## Legacy Static Site
-
-The legacy hand-rolled Pokédex has been removed from the repository to guarantee it can’t ship with the production build. If you ever need those assets again, retrieve them from the Git history instead of reintroducing them to `main`.
+- Demonstrate static export with the Next.js App Router for GitHub Pages.
+- Show a hybrid data strategy: client providers for lists, build-time fetch for heavy detail pages.
+- Practice handling remote sprites without Next.js image optimization.
+- Illustrate trailing-slash routing for static hosting and how to align client navigation with exported files.
+- Provide a concise example of light/dark theming with NextUI and Tailwind on the App Router.
