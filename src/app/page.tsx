@@ -16,7 +16,6 @@ import {
   Linkedin,
   Mail,
   MapPin,
-  Moon,
   PanelTop,
   Search,
   Settings2,
@@ -449,6 +448,7 @@ export default function HomePage() {
             favoriteIds={favoriteIds}
             toggleFavorite={toggleFavorite}
             selectedPokemonId={selectedPokemonId}
+            defaultVisible={10}
           />
 
           <CockpitGuidePanel
@@ -572,14 +572,6 @@ function TopNavigation({
         <kbd>/</kbd>
       </label>
 
-      <div className="flex items-center gap-3">
-        <button type="button" className="top-icon" aria-label="Toggle dark mode">
-          <Moon className="h-5 w-5" />
-        </button>
-        <button type="button" className="top-icon top-icon-purple" aria-label="Account">
-          <CircleUserRound className="h-5 w-5" />
-        </button>
-      </div>
     </header>
   );
 }
@@ -675,6 +667,7 @@ function ExplorerPanel({
   favoriteIds,
   toggleFavorite,
   selectedPokemonId,
+  defaultVisible = 10,
 }: {
   activeSection: PokedexSection;
   pokemonRows: PokemonGridItem[];
@@ -687,7 +680,9 @@ function ExplorerPanel({
   favoriteIds: Set<number>;
   toggleFavorite: (id: number) => void;
   selectedPokemonId: number;
+  defaultVisible?: number;
 }) {
+  const [visibleCount, setVisibleCount] = useState(defaultVisible);
   return (
     <section className="explorer-panel">
       <div className="mb-4 flex items-center justify-between gap-4">
@@ -727,7 +722,7 @@ function ExplorerPanel({
       {!pokemonLoading && !pokemonError && pokemonRows.length === 0 ? <PanelMessage text="No Pokémon match that search." /> : null}
 
       <div className="pokemon-grid">
-        {pokemonRows.slice(0, activeSection === "Pokémon" ? 151 : 10).map((entry) => (
+        {pokemonRows.slice(0, visibleCount).map((entry) => (
           <PokemonCard
             key={entry.id}
             pokemon={entry}
@@ -738,6 +733,35 @@ function ExplorerPanel({
           />
         ))}
       </div>
+
+      {pokemonRows.length > visibleCount ? (
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <button
+            type="button"
+            className="action-button action-button-primary"
+            onClick={() => setVisibleCount((count) => Math.min(count + 20, pokemonRows.length))}
+          >
+            Show more
+          </button>
+          <button
+            type="button"
+            className="action-button"
+            onClick={() => setVisibleCount(pokemonRows.length)}
+          >
+            Show all {pokemonRows.length}
+          </button>
+        </div>
+      ) : pokemonRows.length > defaultVisible ? (
+        <div className="mt-6 flex items-center justify-center">
+          <button
+            type="button"
+            className="action-button"
+            onClick={() => setVisibleCount(defaultVisible)}
+          >
+            Show fewer
+          </button>
+        </div>
+      ) : null}
     </section>
   );
 }
